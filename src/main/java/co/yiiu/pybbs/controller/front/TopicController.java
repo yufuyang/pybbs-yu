@@ -86,8 +86,10 @@ public class TopicController extends BaseController {
     // 查询话题的标签
     Tag tags = tagService.selectById(topic.getTagId());
     // 将标签集合转成逗号隔开的字符串
+    List list=tagService.selectAllTag();
     model.addAttribute("topic", topic);
     model.addAttribute("tags", tags.getName());
+    model.addAttribute("list",list);
     return render("topic/edit");
   }
 
