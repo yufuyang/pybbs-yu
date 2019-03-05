@@ -61,7 +61,6 @@ public class TopicController extends BaseController {
     }
     // 话题浏览量+1
     topic = topicService.addViewCount(topic, request);
-
     model.addAttribute("topic", topic);
     model.addAttribute("tags", tags);
     model.addAttribute("topicUser", topicUser);
@@ -87,9 +86,10 @@ public class TopicController extends BaseController {
     // 查询话题的标签
     Tag tags = tagService.selectById(topic.getTagId());
     // 将标签集合转成逗号隔开的字符串
-
+    List list=tagService.selectAllTag();
     model.addAttribute("topic", topic);
-    model.addAttribute("tags", tags.getName());
+    model.addAttribute("tags", tags);
+    model.addAttribute("list",list);
     return render("topic/edit");
   }
 
@@ -98,11 +98,8 @@ public class TopicController extends BaseController {
     Tag tag = tagService.selectByName(name);
     Assert.notNull(tag, "标签不存在");
     // 查询标签关联的话题
-    System.out.println("一");
-    System.out.println(tag.getName());
     MyPage<Map<String, Object>> iPage = tagService.selectTopicByTagId(tag.getId(), pageNo);
     model.addAttribute("tag", tag);
-    System.out.println(tag);
     model.addAttribute("page", iPage);
     return render("tag/tag");
   }

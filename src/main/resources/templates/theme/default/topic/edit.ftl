@@ -17,8 +17,12 @@
                       placeholder="内容，支持Markdown语法">${topic.content!?html}</textarea>
           </div>
           <div class="form-group">
-            <label for="tags">标签</label>
-            <input type="text" name="tags" id="tags" value="${tags}" class="form-control" placeholder="标签, 多个标签以 英文逗号 隔开"/>
+              <label>标签</label>
+              <select id="tags">
+                <#list list as list>
+                    <option selected="${tags.name}">${list}</option>
+                </#list>
+              </select>
           </div>
           <div class="form-group">
             <button type="button" id="btn" class="btn btn-info">更新话题</button>

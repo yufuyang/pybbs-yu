@@ -80,7 +80,6 @@ public class TopicApiController extends BaseApiController {
     String title = body.get("title");
     String content = body.get("content");
     String tags = body.get("tags");
-    System.out.println("tags:"+tags);
     Tag tag=tagService.selectByName(tags);
 
     ApiAssert.notEmpty(title, "请输入标题");
