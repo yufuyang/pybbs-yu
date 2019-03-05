@@ -2,6 +2,7 @@ package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.mapper.TagMapper;
 import co.yiiu.pybbs.model.Tag;
+import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.TopicTag;
 import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -32,6 +33,8 @@ public class TagService {
   private TopicTagService topicTagService;
   @Autowired
   private SystemConfigService systemConfigService;
+  @Autowired
+  private TopicService topicService;
 
   public Tag selectById(Integer id) {
     return tagMapper.selectById(id);
@@ -137,7 +140,11 @@ public class TagService {
 
   // 如果 topic_tag 表里还有关联的数据，这里删除会报错
   public void delete(Integer id) {
-    tagMapper.deleteById(id);
+       tagMapper.deleteById(id);
+       List<Topic> topics=tagMapper.selectAllTopicByTagId(id);
+       for (Topic topic:topics){
+         topicService.selectById(topic.getId());
+       }
   }
 
   // ---------------------------- admin ----------------------------
@@ -168,5 +175,7 @@ public class TagService {
     tagList=tagMapper.getAllTag();
     return tagList;
   }
+
+
 
 }

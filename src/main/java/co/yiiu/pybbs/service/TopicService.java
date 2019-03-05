@@ -179,7 +179,7 @@ public class TopicService {
     topic.setTagId(tags.getId());
     topicMapper.updateById(topic);
     // 旧标签每个topicCount都-1
-    tagService.reduceTopicCount(topic.getId());
+    //tagService.reduceTopicCount(topic.getId());
     indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     // 缓存到redis里
     redisService.setString(Constants.REDIS_TOPIC_KEY + topic.getId(), JsonUtil.objectToJson(topic));
@@ -198,7 +198,7 @@ public class TopicService {
     // 将话题对应的标签 topicCount -1
     tagService.reduceTopicCount(id);
     // 删除相应的关联标签
-    topicTagService.deleteByTopicId(id);
+    //topicTagService.deleteByTopicId(id);
     // 减去用户积分
     User user = userService.selectById(topic.getUserId());
     user.setScore(user.getScore() - Integer.parseInt(systemConfigService.selectAllConfig().get("delete_topic_score").toString()));

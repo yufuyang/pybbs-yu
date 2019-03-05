@@ -18,6 +18,11 @@
     where t.tag_id = #{tagId} and t.pass=true
     order by t.in_time desc
   </select>
+  <select id="selectAllTopicByTagId" resultType="co.yiiu.pybbs.model.Topic">
+    select t.*
+    from topic t
+    where t.tag_id = #{tagId}
+  </select>
 
   <select id="countToday" resultType="integer">
     select count(1) from tag where to_days(in_time) = to_days(now());
@@ -33,4 +38,5 @@
   <select id="getAllTag" resultType="string">
     select name from tag where pass=true
   </select>
+
 </mapper>

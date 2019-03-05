@@ -49,7 +49,7 @@ public class TopicApiController extends BaseApiController {
     Topic topic = topicService.selectById(id);
     // 查询话题关联的标签
     Tag tags = tagService.selectById(topic.getTagId());
-    System.out.println(tags.getName());
+
     // 查询话题的评论
     List<CommentsByTopic> comments = commentService.selectByTopicId(id);
     // 查询话题的作者信息
