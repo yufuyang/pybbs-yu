@@ -53,7 +53,6 @@
   $(function () {
     CodeMirror.keyMap.default["Shift-Tab"] = "indentLess";
     CodeMirror.keyMap.default["Tab"] = "indentMore";
-    alert(1);
     var editor = CodeMirror.fromTextArea(document.getElementById("content"), {
       lineNumbers: true,     // 显示行数
       indentUnit: 4,         // 缩进单位为4
@@ -69,7 +68,7 @@
       var content = editor.getDoc().getValue();
       var tags = $("#tags").val();
       var pass=true;
-      alert(2);
+
         if (!title || title.length > 120) {
             toast("请输入标题，且最大长度在120个字符以内");
             return;
@@ -79,9 +78,9 @@
         title: title,
         content: content,
         tags: tags,
-          pass: pass;
+          pass: pass,
       }, function (data) {
-          alert(3);
+
         if (data.code === 200) {
           toast("更新成功", "success");
           setTimeout(function () {
@@ -91,7 +90,7 @@
           toast(data.description);
         }
       })
-    })
+    });
       $("#nopass").click(function () {
           var title = $("#title").val();
           var content = editor.getDoc().getValue();
@@ -113,7 +112,7 @@
                   toast(data.description);
               }
           })
-      })
-  })
+      });
+  });
 </script>
 </@html>
