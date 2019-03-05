@@ -10,6 +10,7 @@ import co.yiiu.pybbs.service.*;
 import co.yiiu.pybbs.util.Result;
 import co.yiiu.pybbs.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +48,8 @@ public class TopicApiController extends BaseApiController {
     // 查询话题详情
     Topic topic = topicService.selectById(id);
     // 查询话题关联的标签
-    List<Tag> tags = tagService.selectByTopicId(id);
+    Tag tags = tagService.selectById(topic.getTagId());
+    System.out.println(tags.getName());
     // 查询话题的评论
     List<CommentsByTopic> comments = commentService.selectByTopicId(id);
     // 查询话题的作者信息
@@ -64,7 +66,7 @@ public class TopicApiController extends BaseApiController {
     topic = topicService.addViewCount(topic, request);
 
     map.put("topic", topic);
-    map.put("tags", tags);
+    map.put("tags", tags.getName());
     map.put("comments", comments);
     map.put("topicUser", topicUser);
     map.put("collects", collects);
@@ -78,41 +80,38 @@ public class TopicApiController extends BaseApiController {
     String title = body.get("title");
     String content = body.get("content");
     String tags = body.get("tags");
+    System.out.println("tags:"+tags);
+    Tag tag=tagService.selectByName(tags);
+
     ApiAssert.notEmpty(title, "请输入标题");
     ApiAssert.isNull(topicService.selectByTitle(title), "话题标题重复");
-    String[] strings = StringUtils.commaDelimitedListToStringArray(tags);
-    Set<String> set = StringUtil.removeEmpty(strings);
-    ApiAssert.notTrue(set.isEmpty() || set.size() > 5, "请输入标签且标签最多5个");
     // 保存话题
-    // 再次将tag转成逗号隔开的字符串
-    tags = StringUtils.collectionToCommaDelimitedString(set);
-    Topic topic = topicService.insertTopic(title, content, tags, user, session);
+    Topic topic = topicService.insertTopic(title, content, tag, user, session);
     Map<String, Object> map = new HashMap<>();
     map.put("topic", topic);
-    map.put("tags", tagService.selectByTopicId(topic.getId()));
+    map.put("tags", tags);
     return success(map);
+
   }
 
   // 更新话题
   @PutMapping(value = "/{id}")
-  public Result edit(@PathVariable Integer id, @RequestBody Map<String, String> body) {
+  public Result edit(@PathVariable Integer id,@RequestBody Map<String, String> body){
     User user = getApiUser();
     String title = body.get("title");
     String content = body.get("content");
     String tags = body.get("tags");
+    Tag tag=tagService.selectByName(tags);
     ApiAssert.notEmpty(title, "请输入标题");
-    String[] strings = StringUtils.commaDelimitedListToStringArray(tags);
-    Set<String> set = StringUtil.removeEmpty(strings);
-    ApiAssert.notTrue(set.isEmpty() || set.size() > 5, "请输入标签且标签最多5个");
+
     // 更新话题
     Topic topic = topicService.selectById(id);
     ApiAssert.isTrue(topic.getUserId().equals(user.getId()), "谁给你的权限修改别人的话题的？");
     // 再次将tag转成逗号隔开的字符串
-    tags = StringUtils.collectionToCommaDelimitedString(set);
-    topic = topicService.updateTopic(topic, title, content, tags);
+    topic = topicService.updateTopic(topic, title, content, tag);
     Map<String, Object> map = new HashMap<>();
     map.put("topic", topic);
-    map.put("tags", tagService.selectByTopicId(topic.getId()));
+    map.put("tags", tags);
     return success(map);
   }
 

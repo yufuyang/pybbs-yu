@@ -49,9 +49,9 @@
       <div class="panel-body topic-detail-content">
         ${model.formatContent(topic.content)}
         <div>
-        <#list tags as tag>
-          <a href="/topic/tag/${tag.name}"><span class="label label-info">${tag.name}</span></a>
-        </#list>
+
+          <a href="/topic/tag/${tags.name}"><span class="label label-info">${tags.name}</span></a>
+
         </div>
       </div>
       <#if _user??>

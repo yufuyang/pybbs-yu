@@ -31,7 +31,14 @@ public interface TopicMapper extends BaseMapper<Topic> {
       @Param("startDate") String startDate,
       @Param("endDate") String endDate,
       @Param("username") String username
+
+  );
+  MyPage<Map<String, Object>> selectTopicByAdminId(
+          MyPage<Map<String, Object>> iPage,
+          @Param("adminId") Integer adminId
   );
 
   int countToday();
+
+  Integer countTodayByadminId(@Param("adminId") Integer adminId);
 }

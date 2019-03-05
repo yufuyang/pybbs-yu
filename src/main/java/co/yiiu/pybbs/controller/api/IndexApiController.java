@@ -101,7 +101,8 @@ public class IndexApiController extends BaseApiController {
   // 标签接口
   @GetMapping("/tags")
   public Result tags(@RequestParam(defaultValue = "1") Integer pageNo) {
-    return success(tagService.selectAll(pageNo, null, null));
+
+    return success(tagService.selectAll(pageNo, null, null,null,1));
   }
 
   // 上传图片

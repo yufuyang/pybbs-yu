@@ -30,7 +30,7 @@
           <span>${model.formatDate(topic.inTime)}</span>
           <#if tags>
             <span>•</span>
-            <#list topic.tags as tag>
+             <#list topic.tags as tag>
               <a href="/topic/tag/${tag.name}"><span class="label label-info">${tag.name}</span></a>
             </#list>
           </#if>

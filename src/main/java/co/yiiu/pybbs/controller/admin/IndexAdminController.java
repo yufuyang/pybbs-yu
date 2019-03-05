@@ -36,11 +36,29 @@ public class IndexAdminController extends BaseAdminController {
   @GetMapping({"/", "/index"})
   public String index(Model model) {
     // 查询当天新增话题
-    model.addAttribute("topic_count", topicService.countToday());
+    if (getAdminUser().getRoleId()==1)
+    {
+      model.addAttribute("topic_count", topicService.countToday());
+    }else {
+      Integer  adminId=getAdminUser().getId();
+      model.addAttribute("topic_count", topicService.countTodayByadminId(adminId));
+    }
     // 查询当天新增标签
-    model.addAttribute("tag_count", tagService.countToday());
+    if (getAdminUser().getRoleId()==1)
+    {
+      model.addAttribute("tag_count", tagService.countToday());
+    }else {
+      Integer  adminId=getAdminUser().getId();
+      model.addAttribute("tag_count", tagService.countTodayByadminId(adminId));
+    }
     // 查询当天新增评论
+    if (getAdminUser().getRoleId()==1)
+    {
     model.addAttribute("comment_count", commentService.countToday());
+    }else {
+      Integer  adminId=getAdminUser().getId();
+      model.addAttribute("comment_count", commentService.countTodayByadminId(adminId));
+    }
     // 查询当天新增用户
     model.addAttribute("user_count", userService.countToday());
 

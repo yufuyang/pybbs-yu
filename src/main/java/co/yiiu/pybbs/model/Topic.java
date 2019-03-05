@@ -32,8 +32,34 @@ public class Topic implements Serializable {
   private Boolean top;
   // 加精
   private Boolean good;
+  //审核
+  private Boolean pass;
+
+  public Boolean getPass()
+  {
+    return pass;
+  }
+
+  public void setPass(Boolean pass)
+  {
+    this.pass = pass;
+  }
+
   // 点赞用户的id英文,隔开的，要计算被多少人点赞过，可以通过英文,分隔这个字符串计算数量
   private String upIds;
+
+  private  Integer tagId;
+
+
+  public Integer getTagId()
+  {
+    return tagId;
+  }
+
+  public void setTagId(Integer tagId)
+  {
+    this.tagId = tagId;
+  }
 
   public String getUpIds() {
     return upIds;

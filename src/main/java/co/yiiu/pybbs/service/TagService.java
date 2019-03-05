@@ -44,10 +44,9 @@ public class TagService {
     return tagMapper.selectOne(wrapper);
   }
 
-  public List<Tag> selectByIds(List<Integer> ids) {
+  public List<Tag> selectByIds(Integer id) {
     QueryWrapper<Tag> wrapper = new QueryWrapper<>();
-    wrapper.lambda()
-        .in(Tag::getId, ids);
+    wrapper.lambda().eq(Tag::getId,id);
     return tagMapper.selectList(wrapper);
   }
 
@@ -88,9 +87,10 @@ public class TagService {
     if(tag!=null){
       tag.setName(tag.getName());
       tag.setDescription(tag.getDescription());
-      tag.setCreate_id(tag.getCreate_id());
+      tag.setCreateId(tag.getCreateId());
       tag.setInTime(new Date());
       tag.setTopicCount(0);
+      tag.setPass(false);
       tagMapper.insert(tag);
     }else
       return;
@@ -112,14 +112,22 @@ public class TagService {
   }
 
   // 查询标签列表
-  public IPage<Tag> selectAll(Integer pageNo, Integer pageSize, String name) {
+  public IPage<Tag> selectAll(Integer pageNo, Integer pageSize, String name,Integer userid,Integer roleId) {
     IPage<Tag> iPage = new MyPage<>(pageNo, pageSize == null ? Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize);
     QueryWrapper<Tag> wrapper = new QueryWrapper<>();
     // 当传进来的name不为null的时候，就根据name查询
     if (!StringUtils.isEmpty(name)) {
       wrapper.lambda().eq(Tag::getName, name);
     }
-    wrapper.orderByDesc("topic_count");
+    System.out.println("停在这那");
+    if (roleId==null){System.out.println("在这卡住了吗");
+      wrapper.eq("pass",1);
+
+    }else if (roleId==2)
+           {wrapper.eq("create_id",userid);}
+          else if (roleId==1)
+          {System.out.println("进来了");
+            wrapper.orderByDesc("topic_count");}
     return tagMapper.selectPage(iPage, wrapper);
   }
 
@@ -149,4 +157,16 @@ public class TagService {
   public int countToday() {
     return tagMapper.countToday();
   }
+
+  public int countTodayByadminId(Integer adminId) {
+
+    return tagMapper.countTodayByadminId(adminId);
+  }
+
+  public List selectAllTag(){
+    List tagList=new ArrayList();
+    tagList=tagMapper.getAllTag();
+    return tagList;
+  }
+
 }

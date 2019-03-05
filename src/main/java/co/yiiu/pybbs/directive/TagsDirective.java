@@ -27,8 +27,7 @@ public class TagsDirective implements TemplateDirectiveModel {
                       TemplateDirectiveBody templateDirectiveBody) throws TemplateException, IOException {
     Integer pageNo = Integer.parseInt(map.get("pageNo").toString());
     Integer pageSize = Integer.parseInt(map.get("pageSize").toString());
-    IPage<Tag> page = tagService.selectAll(pageNo, pageSize, null);
-
+    IPage<Tag> page = tagService.selectAll(pageNo, pageSize, null,null,null);
     DefaultObjectWrapperBuilder builder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28);
     environment.setVariable("page", builder.build().wrap(page));
     templateDirectiveBody.render(environment.getOut());

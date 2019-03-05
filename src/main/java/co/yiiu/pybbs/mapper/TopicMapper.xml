@@ -15,6 +15,7 @@
     select t.*, u.username, u.avatar
     from topic t
     left join user u on t.user_id = u.id
+    left join tag on t.tag_id=tag.id
     <where>
       <if test="tab == 'good'">
         t.good = true
@@ -26,6 +27,7 @@
         date(t.in_time) &lt;= date_add(curdate(), interval 1 day)
         and date(t.in_time) &gt;= date_sub(curdate(), interval 7 day)
       </if>
+      and t.pass=true and tag.pass=true
     </where>
     <if test="tab == 'all' or tab == 'newest' or tab == 'noanswer' or tab == 'good'">
       order by t.top desc, t.in_time desc
@@ -39,8 +41,7 @@
     select t.*, u.username, u.avatar
     from topic t
     left join user u on t.user_id = u.id
-    left join topic_tag tt on tt.topic_id = t.id
-    left join tag tag on tag.id = tt.tag_id
+    left join tag tag on tag.id = t.tag_id
     <where>
       tag.name = #{tag}
     </where>
@@ -60,6 +61,7 @@
     from topic t
     left join user u on t.user_id = u.id
     <where>
+
       <if test="startDate != null and endDate != null">
         t.in_time between #{startDate} and #{endDate}
       </if>
@@ -73,6 +75,24 @@
   <select id="countToday" resultType="integer">
     select count(1) from topic t
     where to_days(t.in_time) = to_days(now());
+  </select>
+
+  <select id="countTodayByadminId" resultType="integer">
+     select count(1) from topic t
+     left join tag on t.tag_id=tag.id left join admin_user on tag.create_id=admin_user.id
+     <where>
+     admin_user.id = #{adminId}
+     and
+     to_days(t.in_time) = to_days(now())
+     </where>
+  </select>
+
+  <select id="selectTopicByAdminId" resultType="map">
+    select t.*, u.username, u.avatar
+     from topic t
+         left join user u on t.user_id = u.id  left join tag on t.tag_id=tag.id left join admin_user on tag.create_id=admin_user.id
+     where admin_user.id = #{adminId}
+     order by t.in_time desc
   </select>
 
 </mapper>

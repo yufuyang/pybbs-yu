@@ -22,7 +22,29 @@ public class Tag implements Serializable {
   // 当前标签下的话题个数
   private Integer topicCount;
   private Date inTime;
-  private String create_id;
+  private Integer createId;
+
+  private Boolean pass;
+
+  public Boolean getPass()
+  {
+    return pass;
+  }
+
+  public void setPass(Boolean pass)
+  {
+    this.pass = pass;
+  }
+
+  public Integer getCreateId()
+  {
+    return createId;
+  }
+
+  public void setCreateId(Integer createId)
+  {
+    this.createId = createId;
+  }
 
   public Date getInTime() {
     return inTime;
@@ -68,11 +90,5 @@ public class Tag implements Serializable {
     return serialVersionUID;
   }
 
-  public String getCreate_id() {
-    return create_id;
-  }
 
-  public void setCreate_id(String create_id) {
-    this.create_id = create_id;
-  }
 }

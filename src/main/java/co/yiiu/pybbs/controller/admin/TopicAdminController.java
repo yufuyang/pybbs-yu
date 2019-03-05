@@ -31,68 +31,109 @@ public class TopicAdminController extends BaseAdminController {
   @Autowired
   private TagService tagService;
 
+
+  private Integer userid;
   @RequiresPermissions("topic:list")
   @GetMapping("/list")
   public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate,
                      String username, Model model) {
+
     if (StringUtils.isEmpty(startDate)) startDate = null;
     if (StringUtils.isEmpty(endDate)) endDate = null;
     if (StringUtils.isEmpty(username)) username = null;
-    MyPage<Map<String, Object>> page = topicService.selectAllForAdmin(pageNo, startDate, endDate, username);
-    model.addAttribute("page", page);
-    model.addAttribute("startDate", startDate);
-    model.addAttribute("endDate", endDate);
-    model.addAttribute("username", username);
+    if (getAdminUser().getRoleId()==1){
+      MyPage<Map<String, Object>> page = topicService.selectAllForAdmin(pageNo, startDate, endDate, username);
+      model.addAttribute("page", page);
+      model.addAttribute("startDate", startDate);
+      model.addAttribute("endDate", endDate);
+      model.addAttribute("username", username);
+    }else {
+         userid=getAdminUser().getId();
+      MyPage<Map<String, Object>> page=topicService.selectTopicByAdminId(userid,pageNo,null);
+      model.addAttribute("page", page);
+    }
+
     return "admin/topic/list";
   }
 
   @RequiresPermissions("topic:edit")
   @GetMapping("/edit")
   public String edit(Integer id, Model model) {
-    model.addAttribute("topic", topicService.selectById(id));
-    // 将标签集合转成逗号隔开的字符串
-    List<Tag> tagList = tagService.selectByTopicId(id);
-    String tags = StringUtils.collectionToCommaDelimitedString(tagList.stream().map(Tag::getName).collect(Collectors.toList()));
-    model.addAttribute("tags", tags);
-    return "admin/topic/edit";
+    Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
+    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    {
+      model.addAttribute("topic", topicService.selectById(id));
+      model.addAttribute("tags", tag.getName());
+      return "admin/topic/edit";
+    }
+    return "templates/theme/default/error";
   }
 
   @RequiresPermissions("topic:edit")
   @PostMapping("edit")
   @ResponseBody
-  public Result update(Integer id, String title, String content, String tags) {
+  public Result update(Integer id, String title, String content, Tag tag) {
+
     Topic topic = topicService.selectById(id);
-    topicService.updateTopic(topic, title, content, tags);
+    topicService.updateTopic(topic, title, content, tag);
     return success();
+  }
+
+  @RequiresPermissions("topic:check")
+  @GetMapping ("/check")
+  @ResponseBody
+  public Result check(Integer id) {
+    Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
+
+    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    {
+      Topic topic = topicService.selectById(id);
+      topic.setPass(!topic.getPass());
+      topicService.update(topic);
+      return success();
+    }return error("没有审核权力");
   }
 
   @RequiresPermissions("topic:good")
   @GetMapping("/good")
   @ResponseBody
   public Result good(Integer id) {
-    Topic topic = topicService.selectById(id);
-    topic.setGood(!topic.getGood());
-    topicService.update(topic);
-    return success();
+    Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
+
+    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    {
+      Topic topic = topicService.selectById(id);
+      topic.setGood(!topic.getGood());
+      topicService.update(topic);
+      return success();
+    }return error("没有加精权限");
   }
 
   @RequiresPermissions("topic:top")
   @GetMapping("/top")
   @ResponseBody
   public Result top(Integer id) {
-    Topic topic = topicService.selectById(id);
-    topic.setTop(!topic.getTop());
-    topicService.update(topic);
-    return success();
+    Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
+    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    {
+      Topic topic = topicService.selectById(id);
+      topic.setTop(!topic.getTop());
+      topicService.update(topic);
+      return success();
+    }return error("没有置顶权限");
   }
 
   @RequiresPermissions("topic:delete")
   @GetMapping("/delete")
   @ResponseBody
   public Result delete(Integer id) {
-    Topic topic = topicService.selectById(id);
-    topicService.delete(topic, null);
-    return success();
+    Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
+    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    {
+      Topic topic = topicService.selectById(id);
+      topicService.delete(topic, null);
+      return success();
+    }return error("没有删除权限");
   }
 
   @RequiresPermissions("topic:index")

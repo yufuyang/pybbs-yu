@@ -29,6 +29,7 @@ public class CommentAdminController extends BaseAdminController {
   @Autowired
   private TopicService topicService;
 
+  private Integer userid;
   @RequiresPermissions("comment:list")
   @GetMapping("/list")
   public String list(@RequestParam(defaultValue = "1") Integer pageNo, String startDate, String endDate, String username,
@@ -36,11 +37,18 @@ public class CommentAdminController extends BaseAdminController {
     if (StringUtils.isEmpty(startDate)) startDate = null;
     if (StringUtils.isEmpty(endDate)) endDate = null;
     if (StringUtils.isEmpty(username)) username = null;
-    MyPage<Map<String, Object>> page = commentService.selectAllForAdmin(pageNo, startDate, endDate, username);
-    model.addAttribute("page", page);
-    model.addAttribute("startDate", startDate);
-    model.addAttribute("endDate", endDate);
-    model.addAttribute("username", username);
+    if (getAdminUser().getRoleId()==1)
+    {
+      MyPage<Map<String, Object>> page = commentService.selectAllForAdmin(pageNo, startDate, endDate, username);
+      model.addAttribute("page", page);
+      model.addAttribute("startDate", startDate);
+      model.addAttribute("endDate", endDate);
+      model.addAttribute("username", username);
+    }else {
+      userid=getAdminUser().getId();
+      MyPage<Map<String, Object>> page = commentService.selectByAdminId(pageNo, userid);
+      model.addAttribute("page", page);
+    }
     return "admin/comment/list";
   }
 

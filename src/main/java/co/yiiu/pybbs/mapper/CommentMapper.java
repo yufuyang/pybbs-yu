@@ -27,5 +27,12 @@ public interface CommentMapper extends BaseMapper<Comment> {
       @Param("username") String username
   );
 
+  MyPage<Map<String, Object>> selectByAdminId(
+          MyPage<Map<String, Object>> iPage,
+          @Param("adminId") Integer adminId
+  );
+
   int countToday();
+
+  Integer countTodayByadminId(@Param("adminId") Integer adminId);
 }

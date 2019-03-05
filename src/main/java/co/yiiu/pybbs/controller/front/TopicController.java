@@ -49,7 +49,7 @@ public class TopicController extends BaseController {
     Topic topic = topicService.selectById(id);
     Assert.notNull(topic, "话题不存在");
     // 查询话题关联的标签
-    List<Tag> tags = tagService.selectByTopicId(id);
+    Tag tags = tagService.selectById(topic.getTagId());
     // 查询话题的作者信息
     User topicUser = userService.selectById(topic.getUserId());
     // 查询话题有多少收藏
@@ -71,7 +71,11 @@ public class TopicController extends BaseController {
 
   @GetMapping("/create")
   public String create(String tag, Model model) {
-    model.addAttribute("tag", tag);
+    //String name=tag.getName();
+    //System.out.println("jinlaile");
+    model.addAttribute("tag",tag);
+    List list=tagService.selectAllTag();
+    model.addAttribute("list",list);
     return render("topic/create");
   }
 
@@ -81,9 +85,8 @@ public class TopicController extends BaseController {
     Topic topic = topicService.selectById(id);
     Assert.isTrue(topic.getUserId().equals(getUser().getId()), "谁给你的权限修改别人的话题的？");
     // 查询话题的标签
-    List<Tag> tagList = tagService.selectByTopicId(id);
+    Tag tags = tagService.selectById(topic.getTagId());
     // 将标签集合转成逗号隔开的字符串
-    String tags = StringUtils.collectionToCommaDelimitedString(tagList.stream().map(Tag::getName).collect(Collectors.toList()));
 
     model.addAttribute("topic", topic);
     model.addAttribute("tags", tags);
@@ -95,8 +98,11 @@ public class TopicController extends BaseController {
     Tag tag = tagService.selectByName(name);
     Assert.notNull(tag, "标签不存在");
     // 查询标签关联的话题
+    System.out.println("一");
+    System.out.println(tag.getName());
     MyPage<Map<String, Object>> iPage = tagService.selectTopicByTagId(tag.getId(), pageNo);
     model.addAttribute("tag", tag);
+    System.out.println(tag);
     model.addAttribute("page", iPage);
     return render("tag/tag");
   }

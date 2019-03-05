@@ -2,6 +2,7 @@ package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.AdminUser;
 import co.yiiu.pybbs.model.Tag;
+import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.service.TagService;
 import co.yiiu.pybbs.util.FileUtil;
 import co.yiiu.pybbs.util.Result;
@@ -30,11 +31,15 @@ public class TagAdminController extends BaseAdminController {
   @Autowired
   private Tag tag;
 
+
   @RequiresPermissions("tag:list")
   @GetMapping("/list")
   public String list(@RequestParam(defaultValue = "1") Integer pageNo, String name, Model model) {
     if (StringUtils.isEmpty(name)) name = null;
-    IPage<Tag> page = tagService.selectAll(pageNo, null, name);
+    Integer usrid=getAdminUser().getId();
+    Integer roleId=getAdminUser().getRoleId();
+    IPage<Tag> page = tagService.selectAll(pageNo, null, name,usrid,roleId);
+    model.addAttribute("roleId",roleId);
     model.addAttribute("page", page);
     model.addAttribute("name", name);
     return "admin/tag/list";
@@ -50,12 +55,12 @@ public class TagAdminController extends BaseAdminController {
   @RequiresPermissions("tag:add")
   @PostMapping("/add")
   public String add(String name, String description, Integer topicCount) {
-    AdminUser adminUser=getAdminUser();
+
 //    System.out.println(adminUser.getUsername());
     tag.setName(name);
     tag.setDescription(description);
-    tag.setTopicCount(topicCount);
-    tag.setCreate_id(adminUser.getUsername());
+    //tag.setTopicCount(topicCount);
+    tag.setCreateId(getAdminUser().getId());
     tagService.insertTag(tag);
     return redirect("/admin/tag/list");
   }
@@ -66,6 +71,18 @@ public class TagAdminController extends BaseAdminController {
     model.addAttribute("tag", tagService.selectById(id));
     return "admin/tag/edit";
   }
+  //审核标签
+
+  @RequiresPermissions("tag:check")
+  @GetMapping ("/check")
+  @ResponseBody
+  public Result check(Integer id) {
+      Tag tag=tagService.selectById(id);
+      tag.setPass(!tag.getPass());
+      tagService.update(tag);
+      return success();
+  }
+
 
   //编辑标签
   @RequiresPermissions("tag:edit")

@@ -141,7 +141,7 @@ public class CollectService {
             Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
     );
     iPage = collectMapper.selectByUserId(iPage, userId);
-    topicService.selectTags(iPage, topicTagService, tagService);
+    topicService.selectTags(iPage, tagService);
     return iPage;
   }
 }

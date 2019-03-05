@@ -56,12 +56,14 @@
               <td><a href="/user/${topic.username}" target="_blank">${topic.username}</a></td>
               <td>${topic.commentCount}</td>
               <td>
-                <#if topic.top>
-                  置顶
-                <#elseif topic.good>
+                <#if topic.pass>
+                  已审核
+                  <#elseif topic.good>
                   精华
-                <#else>
-                  &nbsp;
+                  <#elseif topic.top>
+                  置顶
+                  <#else>
+                  未审核
                 </#if>
               </td>
               <td>${topic.inTime!}</td>
@@ -71,6 +73,15 @@
                 </#if>
                 <#if sec.hasPermission("topic:delete_index")>
                   <button onclick="delete_index('${topic.id}')" class="btn btn-xs btn-danger">删除索引</button>
+                </#if>
+                <#if sec.hasPermission("topic:check")>
+                <button onclick="actionBtn('${topic.id}', 'check', this)" class="btn btn-xs btn-warning">
+                <#if topic.pass>
+                 已审核
+                <#else>
+                未审核
+                </#if>
+                </button>
                 </#if>
                 <#if sec.hasPermission("topic:top")>
                   <button onclick="actionBtn('${topic.id}', 'top', this)" class="btn btn-xs btn-warning">
@@ -122,7 +133,7 @@
       todayHighlight: true,
     });
   });
-  <#if sec.hasPermissionOr("topic:top", "topic:good", "topic:delete")>
+  <#if sec.hasPermissionOr("topic:top", "topic:good", "topic:delete","topic:check")>
     function actionBtn(id, action, self) {
       var msg, url;
       var tip = $(self).text().replace(/[\r\n]/g, '').trim();
@@ -135,7 +146,11 @@
       } else if(action === 'delete') {
         url = '/admin/topic/delete?id=' + id;
         msg = '确定要删除这条评论吗？';
+      }else if(action === 'check') {
+          url = '/admin/topic/check?id=' + id;
+          msg = '确定'+tip+'这条话题吗？';
       }
+
       if (confirm(msg)) {
         $.get(url, function (data) {
           if (data.code === 200) {

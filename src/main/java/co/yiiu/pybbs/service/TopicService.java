@@ -60,15 +60,14 @@ public class TopicService {
         Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString())
     );
     page = topicMapper.selectAll(page, tab);
-    selectTags(page, topicTagService, tagService);
+    selectTags(page, tagService);
     return page;
   }
 
-  public void selectTags(MyPage<Map<String, Object>> page, TopicTagService topicTagService, TagService tagService) {
+  public void selectTags(MyPage<Map<String, Object>> page, TagService tagService) {
     page.getRecords().forEach(map -> {
-      List<TopicTag> topicTags = topicTagService.selectByTopicId((Integer) map.get("id"));
-      List<Integer> tagIds = topicTags.stream().map(TopicTag::getTagId).collect(Collectors.toList());
-      List<Tag> tags = tagService.selectByIds(tagIds);
+      List<Tag> tags = tagService.selectByIds((Integer) map.get("tagId"));
+      System.out.println((Integer) map.get("tagId"));
       map.put("tags", tags);
     });
   }
@@ -96,7 +95,7 @@ public class TopicService {
   }
 
   // 保存话题
-  public Topic insertTopic(String title, String content, String tags, User user, HttpSession session) {
+  public Topic insertTopic(String title, String content, Tag tags, User user, HttpSession session) {
     Topic topic = new Topic();
     topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
     topic.setContent(content);
@@ -104,18 +103,18 @@ public class TopicService {
     topic.setUserId(user.getId());
     topic.setTop(false);
     topic.setGood(false);
+    topic.setPass(false);
     topic.setView(0);
     topic.setCollectCount(0);
     topic.setCommentCount(0);
+    topic.setTagId(tags.getId());
     topicMapper.insert(topic);
+    tags.setTopicCount(tags.getTopicCount()+1);
+    tagService.update(tags);
     // 增加用户积分
     user.setScore(user.getScore() + Integer.parseInt(systemConfigService.selectAllConfig().get("create_topic_score").toString()));
     userService.update(user);
     if (session != null) session.setAttribute("_user", user);
-    // 保存标签
-    List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
-    // 处理标签与话题的关联
-    topicTagService.insertTopicTag(topic.getId(), tagList);
     // 索引话题
     indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     return topic;
@@ -173,18 +172,14 @@ public class TopicService {
   }
 
   // 更新话题
-  public Topic updateTopic(Topic topic, String title, String content, String tags) {
+  public Topic updateTopic(Topic topic, String title, String content, Tag tags) {
     topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
     topic.setContent(content);
     topic.setModifyTime(new Date());
+    topic.setTagId(tags.getId());
     topicMapper.updateById(topic);
     // 旧标签每个topicCount都-1
     tagService.reduceTopicCount(topic.getId());
-    // 保存标签
-    List<Tag> tagList = tagService.insertTag(Jsoup.clean(tags, Whitelist.none()));
-    // 处理标签与话题的关联
-    topicTagService.insertTopicTag(topic.getId(), tagList);
-    // 索引话题
     indexTopic(String.valueOf(topic.getId()), topic.getTitle(), topic.getContent());
     // 缓存到redis里
     redisService.setString(Constants.REDIS_TOPIC_KEY + topic.getId(), JsonUtil.objectToJson(topic));
@@ -280,9 +275,23 @@ public class TopicService {
     return topicMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
 
+  public MyPage<Map<String, Object>> selectTopicByAdminId(Integer adminId, Integer pageNo, Integer pageSize) {
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo,
+            pageSize == null ?
+                    Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize
+    );
+    return topicMapper.selectTopicByAdminId(iPage, adminId);
+  }
+
   // 查询今天新增的话题数
   public int countToday() {
+
     return topicMapper.countToday();
+  }
+
+  public int countTodayByadminId(Integer adminId) {
+
+    return topicMapper.countTodayByadminId(adminId);
   }
 
   // ---------------------------- api ----------------------------

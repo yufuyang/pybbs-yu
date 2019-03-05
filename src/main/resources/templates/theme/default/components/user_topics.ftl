@@ -24,6 +24,13 @@
                   <span class="hidden-sm hidden-xs">${topic.view}次浏览</span>
                   <span>•</span>
                   <span>${model.formatDate(topic.inTime)}</span>
+                  <span>•</span>
+                  <span>
+                   <#if topic.pass>
+                    已审核
+                   <#else>
+                    未审核
+                   </#if></span>
                 </p>
               </div>
             </div>

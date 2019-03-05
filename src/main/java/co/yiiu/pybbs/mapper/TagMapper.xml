@@ -13,16 +13,24 @@
 
   <select id="selectTopicByTagId" resultType="map">
     select t.*, u.username, u.avatar
-    from topic_tag tt
-    left join topic t on tt.topic_id = t.id
-    left join tag tag on tt.tag_id = tag.id
+    from topic t
     left join user u on t.user_id = u.id
-    where tag.id = #{tagId}
-    order by tag.topic_count desc
+    where t.tag_id = #{tagId} and t.pass=true
+    order by t.in_time desc
   </select>
 
   <select id="countToday" resultType="integer">
     select count(1) from tag where to_days(in_time) = to_days(now());
   </select>
 
+  <select id="countTodayByadminId" resultType="integer">
+    select count(1) from tag
+    where
+      tag.create_id=#{adminId}
+      and
+      to_days(in_time) = to_days(now())
+  </select>
+  <select id="getAllTag" resultType="string">
+    select name from tag where pass=true
+  </select>
 </mapper>

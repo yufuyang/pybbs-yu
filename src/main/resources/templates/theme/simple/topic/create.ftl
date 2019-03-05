@@ -17,7 +17,7 @@
     </tr>
     <tr>
       <td>标签</td>
-      <td style="padding-right: 14px;"><input type="text" name="tags" id="tags" value="${tag!}" placeholder="标签, 多个标签以 英文逗号 隔开"/></td>
+      </td>
     </tr>
     <tr>
       <td>&nbsp;</td>

@@ -283,9 +283,18 @@ public class CommentService {
     MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
     return commentMapper.selectAllForAdmin(iPage, startDate, endDate, username);
   }
+  public MyPage<Map<String, Object>> selectByAdminId(Integer pageNo, Integer adminId) {
+    MyPage<Map<String, Object>> iPage = new MyPage<>(pageNo, Integer.parseInt((String) systemConfigService.selectAllConfig().get("page_size")));
+    return commentMapper.selectByAdminId(iPage, adminId);
+  }
 
   // 查询今天新增的话题数
   public int countToday() {
     return commentMapper.countToday();
+  }
+
+  public int countTodayByadminId(Integer adminId) {
+
+    return commentMapper.countTodayByadminId(adminId);
   }
 }

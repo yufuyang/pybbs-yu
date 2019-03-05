@@ -17,9 +17,14 @@
                         placeholder="内容，支持Markdown语法"></textarea>
             </div>
             <div class="form-group">
-              <label for="tags">标签</label>
-              <input type="text" name="tags" id="tags" value="${tag!}" class="form-control"
-                     placeholder="标签, 多个标签以 英文逗号 隔开"/>
+              <label>标签</label>
+              <select id="tags">
+                <#list list as list>
+                  <option>${list}</option>
+                </#list>
+              </select>
+              <#--<input type="text" name="tags" id="tags" value="${tag!}" class="form-control"-->
+              <#--placeholder="标签, 多个标签以 英文逗号 隔开"/>-->
             </div>
             <div class="form-group">
               <button type="button" id="btn" class="btn btn-info">发布话题</button>
@@ -54,14 +59,7 @@
         var title = $("#title").val();
         var content = window.editor.getDoc().getValue();
         var tags = $("#tags").val();
-        if (!title || title.length > 120) {
-          toast("请输入标题，且最大长度在120个字符以内");
-          return;
-        }
-        if (!tags || tags.split(",").length > 5) {
-          toast("请输入标签，且最多只能填5个");
-          return;
-        }
+
         $.ajax({
           url: '/api/topic',
           cache: false,

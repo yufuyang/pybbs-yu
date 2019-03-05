@@ -48,5 +48,25 @@
   <select id="countToday" resultType="integer">
     select count(1) from comment where to_days(in_time) = to_days(now());
   </select>
+  <select id="countTodayByadminId" resultType="integer">
+    select count(1) from comment c
+        left join topic t on c.topic_id = t.id
+        left join tag on t.tag_id=tag.id
+        left join admin_user on tag.create_id=admin_user.id
+    where
+        admin_user.id = #{adminId}
+        and
+        to_days(c.in_time) = to_days(now())
+  </select>
 
+  <select id="selectByAdminId" resultType="map">
+    select c.*, t.title, t.id as topicId, u.username
+    from comment c
+    left join user u on u.id = c.user_id
+    left join topic t on c.topic_id = t.id
+    left join tag on t.tag_id=tag.id
+    left join admin_user on tag.create_id=admin_user.id
+    where admin_user.id = #{adminId}
+    order by c.in_time desc
+  </select>
 </mapper>

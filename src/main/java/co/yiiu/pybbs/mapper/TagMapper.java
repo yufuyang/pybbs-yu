@@ -5,6 +5,7 @@ import co.yiiu.pybbs.util.MyPage;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,4 +18,7 @@ public interface TagMapper extends BaseMapper<Tag> {
   MyPage<Map<String, Object>> selectTopicByTagId(MyPage<Map<String, Object>> iPage, @Param("tagId") Integer tagId);
 
   int countToday();
+  Integer countTodayByadminId(@Param("adminId") Integer adminId);
+
+  List getAllTag();
 }
