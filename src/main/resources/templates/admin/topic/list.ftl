@@ -75,13 +75,13 @@
                   <button onclick="delete_index('${topic.id}')" class="btn btn-xs btn-danger">删除索引</button>
                 </#if>
                 <#if sec.hasPermission("topic:check")>
-                <button onclick="actionBtn('${topic.id}', 'check', this)" class="btn btn-xs btn-warning">
+                  <a href="/admin/topic/check?id=${topic.id}" class="btn btn-xs btn-warning">
                 <#if topic.pass>
                  已审核
                 <#else>
                 未审核
                 </#if>
-                </button>
+                 </a>
                 </#if>
                 <#if sec.hasPermission("topic:top")>
                   <button onclick="actionBtn('${topic.id}', 'top', this)" class="btn btn-xs btn-warning">

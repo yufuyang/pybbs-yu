@@ -81,17 +81,26 @@ public class TopicAdminController extends BaseAdminController {
 
   @RequiresPermissions("topic:check")
   @GetMapping ("/check")
-  @ResponseBody
-  public Result check(Integer id) {
+  public String check(Integer id,Model model) {
     Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
 
     if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
     {
       Topic topic = topicService.selectById(id);
-      topic.setPass(!topic.getPass());
-      topicService.update(topic);
-      return success();
-    }return error("没有审核权力");
+      model.addAttribute("topic",topic);
+      model.addAttribute("tags", tag.getName());
+      return "admin/topic/check";
+    }return "templates/theme/default/error";
+  }
+  @RequiresPermissions("topic:check")
+  @PostMapping("/check")
+  @ResponseBody
+  public Result isPass(Integer id, String title, String content, Tag tag,Boolean pass) {
+    System.out.println("进来了吗");
+    Topic topic = topicService.selectById(id);
+    topic.setPass(pass);
+    topicService.updateTopic(topic, title, content, tag);
+    return success();
   }
 
   @RequiresPermissions("topic:good")

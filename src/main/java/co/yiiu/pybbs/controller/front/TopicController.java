@@ -89,7 +89,7 @@ public class TopicController extends BaseController {
     // 将标签集合转成逗号隔开的字符串
 
     model.addAttribute("topic", topic);
-    model.addAttribute("tags", tags);
+    model.addAttribute("tags", tags.getName());
     return render("topic/edit");
   }
 
