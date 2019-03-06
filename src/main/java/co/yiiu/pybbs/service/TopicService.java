@@ -2,6 +2,7 @@ package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.config.service.ElasticSearchService;
 import co.yiiu.pybbs.config.service.RedisService;
+import co.yiiu.pybbs.mapper.TagMapper;
 import co.yiiu.pybbs.mapper.TopicMapper;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
@@ -172,11 +173,12 @@ public class TopicService {
   }
 
   // 更新话题
-  public Topic updateTopic(Topic topic, String title, String content, Tag tags) {
+  public Topic updateTopic(Topic topic, String title, String content, String tags) {
     topic.setTitle(Jsoup.clean(title, Whitelist.simpleText()));
     topic.setContent(content);
     topic.setModifyTime(new Date());
-    topic.setTagId(tags.getId());
+    topic.setTagId(tagService.selectByName(tags).getId());
+
     topicMapper.updateById(topic);
     // 旧标签每个topicCount都-1
     //tagService.reduceTopicCount(topic.getId());
