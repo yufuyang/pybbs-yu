@@ -1,7 +1,8 @@
 <#include "../layout/layout.ftl">
 <@html page_title="板块列表" page_tab="tag">
   <section class="content-header">
-    <h1>板块
+    <h1>
+        板块
       <small>列表</small>
     </h1>
     <ol class="breadcrumb">
@@ -53,6 +54,7 @@
                <th>#</th>
               <th>名称</th>
               <th>话题数</th>
+              <th>状态</th>
               <th>操作</th>
           </tr>
           </thead>
@@ -62,7 +64,13 @@
               <td>${tag.id}</td>
               <td><a href="/topic/tag/${tag.name!}" target="_blank">${tag.name!}</a></td>
               <td>${tag.topicCount!0}</td>
-
+              <td>
+              <#if tag.pass>
+                  已审核
+              <#else>
+                  未审核
+              </#if>
+              </td>
               <td>
                 <#if sec.hasPermission('tag:edit')>
                   <a href="/admin/tag/edit?id=${tag.id}" class="btn btn-xs btn-warning">编辑</a>
@@ -70,7 +78,14 @@
                 <#if sec.hasPermission('tag:delete')>
                   <button onclick="actionBtn('${tag.id}','delete', this)" class="btn btn-xs btn-danger">删除</button>
                 </#if>
-
+                <#if sec.hasPermission('tag:check')>
+                   <button onclick="actionBtn('${tag.id}', 'check', this)" class="btn btn-xs btn-warning">
+                </#if>
+                <#if tag.pass>
+                    已审核
+                <#else>
+                    未审核
+                </#if>
 
               </td>
             </tr>
@@ -86,13 +101,16 @@
     <@paginate currentPage=page.current totalPage=page.pages actionUrl="/admin/tag/list" urlParas="&name=${name!}"/>
   </section>
 <script>
-    <#if sec.hasPermissionOr("tag:delete")>
+    <#if sec.hasPermissionOr("tag:delete","tag:check")>
     function actionBtn(id, action, self) {
         var msg, url;
         var tip = $(self).text().replace(/[\r\n]/g, '').trim();
          if(action === 'delete') {
             url = '/admin/tag/delete?id=' + id;
-            msg = '确定要删除这个板块吗？';
+            msg = '确定要删除这条评论吗？';
+        }else if(action === 'check') {
+            url = '/admin/tag/check?id=' + id;
+            msg = '确定'+tip+'这条话题吗？';
         }
 
         if (confirm(msg)) {

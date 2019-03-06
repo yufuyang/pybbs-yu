@@ -28,6 +28,9 @@ public class GlobalExceptionHandler {
 
   private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+  @Autowired
+  private SystemConfigService systemConfigService;
+
   private HttpStatus getStatus(HttpServletRequest request) {
     Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
     if (statusCode == null) {

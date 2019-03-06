@@ -17,14 +17,6 @@
                       placeholder="内容，支持Markdown语法">${topic.content!?html}</textarea>
           </div>
           <div class="form-group">
-<<<<<<< HEAD
-            <label>标签</label>
-            <select id="tags">
-              <#list list as list>
-                <option>${list}</option>
-              </#list>
-            </select>
-=======
               <label>标签</label>
               <select id="tags" data-tag="${tags}">
                 <#list list as list>
@@ -41,7 +33,6 @@
                         selectOpt[0].setAttribute('selected', true)
                     }
                 </script>
->>>>>>> 9bf8940372a2cb8d82af4b8a1b4a871c5836375d
           </div>
           <div class="form-group">
             <button type="button" id="btn" class="btn btn-info">更新话题</button>
