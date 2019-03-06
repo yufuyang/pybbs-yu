@@ -72,10 +72,10 @@ public class TopicAdminController extends BaseAdminController {
   @RequiresPermissions("topic:edit")
   @PostMapping("edit")
   @ResponseBody
-  public Result update(Integer id, String title, String content, Tag tag) {
-
+  public Result update(Integer id, String title, String content, String tags) {
+    System.out.println(tags);
     Topic topic = topicService.selectById(id);
-    topicService.updateTopic(topic, title, content, tag);
+    topicService.updateTopic(topic, title, content, tags);
     return success();
   }
 
@@ -95,11 +95,11 @@ public class TopicAdminController extends BaseAdminController {
   @RequiresPermissions("topic:check")
   @PostMapping("/check")
   @ResponseBody
-  public Result isPass(Integer id, String title, String content, Tag tag,Boolean pass) {
-
+  public Result isPass(Integer id, String title, String content, String tags,Boolean pass) {
+    System.out.println(tags);
     Topic topic = topicService.selectById(id);
     topic.setPass(pass);
-    topicService.updateTopic(topic, title, content, tag);
+    topicService.updateTopic(topic, title, content, tags);
     return success();
   }
 

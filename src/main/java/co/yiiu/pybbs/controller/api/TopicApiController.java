@@ -107,7 +107,7 @@ public class TopicApiController extends BaseApiController {
     Topic topic = topicService.selectById(id);
     ApiAssert.isTrue(topic.getUserId().equals(user.getId()), "谁给你的权限修改别人的话题的？");
     // 再次将tag转成逗号隔开的字符串
-    topic = topicService.updateTopic(topic, title, content, tag);
+    topic = topicService.updateTopic(topic, title, content, tag.getName());
     Map<String, Object> map = new HashMap<>();
     map.put("topic", topic);
     map.put("tags", tags);

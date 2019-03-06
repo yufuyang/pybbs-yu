@@ -30,7 +30,7 @@
           </div>
           <div class="form-group">
             <label for="tags">标签</label>
-            <input type="text" name="tags" id="tags" value="${tags}" class="form-control" placeholder="标签, 多个标签以 英文逗号 隔开"/>
+            <input type="text" name="tags" id="tags" value="${tags}" class="form-control" />
           </div>
           <div class="form-group">
             <button type="button" id="pass" class="btn btn-primary">通过</button>
