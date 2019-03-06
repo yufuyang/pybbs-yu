@@ -17,12 +17,25 @@
                       placeholder="内容，支持Markdown语法">${topic.content!?html}</textarea>
           </div>
           <div class="form-group">
-              <label>标签</label>
+              <label>板块</label>
               <select id="tags">
                 <#list list as list>
-                    <option selected="${tags.name}">${list}</option>
+                    <option>${list}</option>
                 </#list>
               </select>
+            <input type="text" value="${tags}">
+              <script>
+                  const dom = document.getElementById('tags')
+                  const opts = Array.prototype.slice.call(dom.getElementsByTagName('option'))
+                  const Herf = window.location.href
+                  let arr = Herf.split('=')
+                  const selectOpt = opts.filter(function(value) {
+                      return value.innerHTML === decodeURI(arr[1])
+                  })
+                  if (selectOpt[0]) {
+                      selectOpt[0].setAttribute('selected', true)
+                  }
+              </script>
           </div>
           <div class="form-group">
             <button type="button" id="btn" class="btn btn-info">更新话题</button>

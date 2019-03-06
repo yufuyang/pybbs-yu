@@ -88,7 +88,7 @@ public class TopicController extends BaseController {
     // 将标签集合转成逗号隔开的字符串
     List list=tagService.selectAllTag();
     model.addAttribute("topic", topic);
-    model.addAttribute("tags", tags);
+    model.addAttribute("tags", tags.getName());
     model.addAttribute("list",list);
     return render("topic/edit");
   }
@@ -96,7 +96,7 @@ public class TopicController extends BaseController {
   @GetMapping("/tag/{name}")
   public String tag(@PathVariable String name, @RequestParam(defaultValue = "1") Integer pageNo, Model model) {
     Tag tag = tagService.selectByName(name);
-    Assert.notNull(tag, "标签不存在");
+    Assert.notNull(tag, "板块不存在");
     // 查询标签关联的话题
     MyPage<Map<String, Object>> iPage = tagService.selectTopicByTagId(tag.getId(), pageNo);
     model.addAttribute("tag", tag);

@@ -101,7 +101,7 @@ public class TagAdminController extends BaseAdminController {
   @ResponseBody
   public Result delete(Integer id) {
     Tag tag = tagService.selectById(id);
-    if (tag.getTopicCount() > 0) return error("标签还关联着话题，要先把相关联的话题都删了，这个标签才能删除");
+    if (tag.getTopicCount() > 0) return error("板块还关联着话题，要先把相关联的话题都删了，这个板块才能删除");
     tagService.delete(id);
     return success();
   }

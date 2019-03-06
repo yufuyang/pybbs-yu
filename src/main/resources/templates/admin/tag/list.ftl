@@ -1,25 +1,25 @@
 <#include "../layout/layout.ftl">
-<@html page_title="标签列表" page_tab="tag">
+<@html page_title="板块列表" page_tab="tag">
   <section class="content-header">
     <h1>
-      标签
+        板块
       <small>列表</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="/admin/index"><i class="fa fa-dashboard"></i> 首页</a></li>
-      <li><a href="/admin/tag/list">标签</a></li>
+      <li><a href="/admin/tag/list">板块</a></li>
       <li class="active">列表</li>
     </ol>
   </section>
   <section class="content">
     <div class="box box-info">
       <div class="box-header with-border">
-        <h3 class="box-title">标签列表</h3>
+        <h3 class="box-title">板块列表</h3>
         <#if sec.hasPermission('tag:async')>
           <button type="button" onclick="asyncTopicCount()" class="btn btn-xs btn-danger pull-right">同步话题数</button>
           <script>
             function asyncTopicCount() {
-              if(confirm('如果标签数比较多，这个操作会很耗费时间，确定继续吗？')) {
+              if(confirm('如果板块数比较多，这个操作会很耗费时间，确定继续吗？')) {
                 $.get("/admin/tag/async", function (data) {
                   if (data.code === 200) {
                     toast("成功", "success");
@@ -45,7 +45,7 @@
         </form>
           <form action="/admin/tag/add" class="form-inline">
               <div class="form-group" style="margin-bottom: 10px;">
-                  <button type="submit" class="btn btn-primary btn-sm">添加标签</button>
+                  <button type="submit" class="btn btn-primary btn-sm">添加板块</button>
               </div>
           </form>
         <table class="table table-bordered table-striped">

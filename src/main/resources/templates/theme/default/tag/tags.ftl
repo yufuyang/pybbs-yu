@@ -1,5 +1,5 @@
 <#include "../layout/layout.ftl"/>
-<@html page_title="标签" page_tab="tags">
+<@html page_title="板块" page_tab="tags">
 <div class="row">
   <div class="col-md-9">
     <div class="panel panel-info">

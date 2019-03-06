@@ -33,7 +33,7 @@
           <div class="inner">
             <h3>${tag_count!0}</h3>
 
-            <p>今天新增标签数</p>
+            <p>今天新增板块数</p>
           </div>
           <div class="icon">
             <i class="ion ion-pricetags"></i>
