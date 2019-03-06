@@ -237,29 +237,29 @@ ol, ul {
       }
     }
 
-    .tags {
-      overflow: hidden;
-      .item {
-        float: left;
-        width: 25%;
-        height: 88px;
-        overflow: hidden;
-        margin-bottom: 10px;
+    // .tags {
+    //   overflow: hidden;
+    //   .item {
+    //     float: left;
+    //     width: 25%;
+    //     height: 88px;
+    //     overflow: hidden;
+    //     margin-bottom: 10px;
 
-        .description {
-          font-size: 14px;
-          margin-top: 10px;
-          overflow: hidden;
-        }
-      }
-    }
+    //     .description {
+    //       font-size: 14px;
+    //       margin-top: 10px;
+    //       overflow: hidden;
+    //     }
+    //   }
+    // }
 
-    .tag {
-      text-decoration: none;
-      background-color: $text-color;
-      color: $text-color-reverse;
-      padding: 2px 8px;
-    }
+    // .tag {
+    //   text-decoration: none;
+    //   background-color: $text-color;
+    //   color: $text-color-reverse;
+    //   padding: 2px 8px;
+    // }
 
     .comments {
       img {
