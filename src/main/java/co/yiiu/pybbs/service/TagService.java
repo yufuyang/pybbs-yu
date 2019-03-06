@@ -115,23 +115,19 @@ public class TagService {
   }
 
   // 查询标签列表
-  public IPage<Tag> selectAll(Integer pageNo, Integer pageSize, String name,Integer userid,Integer roleId) {
+  public IPage<Tag> selectAll(Integer pageNo, Integer pageSize, String name) {
     IPage<Tag> iPage = new MyPage<>(pageNo, pageSize == null ? Integer.parseInt(systemConfigService.selectAllConfig().get("page_size").toString()) : pageSize);
     QueryWrapper<Tag> wrapper = new QueryWrapper<>();
     // 当传进来的name不为null的时候，就根据name查询
     if (!StringUtils.isEmpty(name)) {
       wrapper.lambda().eq(Tag::getName, name);
     }
-    System.out.println("停在这那");
-    if (roleId==null){System.out.println("在这卡住了吗");
-      wrapper.eq("pass",1);
-
-    }else if (roleId==2)
-           {wrapper.eq("create_id",userid);}
-          else if (roleId==1)
-          {System.out.println("进来了");
-            wrapper.orderByDesc("topic_count");}
+    wrapper.orderByDesc("topic_count");
     return tagMapper.selectPage(iPage, wrapper);
+  }
+
+  public List<Tag> selectall(){
+    return tagMapper.selectList(null);
   }
 
   public void update(Tag tag) {

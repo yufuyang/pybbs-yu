@@ -28,7 +28,7 @@
               </div>
               <div class="form-group">
                 <label>密码</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="密码">
+                <input type="password" id="password" name="password" class="form-control" value="${adminUser.password!}" placeholder="密码">
               </div>
               <div class="form-group">
                 <label>角色</label>
@@ -36,6 +36,15 @@
                   <#list roles as role>
                     <input type="radio" name="roleId" value="${role.id}" id="role_${role.id}" <#if role.id == adminUser.roleId>checked</#if>>&nbsp;
                     <label for="role_${role.id}">${role.name!}</label>
+                  </#list>
+                </p>
+              </div>
+              <div class="form-group">
+                <label>模块</label>
+                <p>
+                  <#list tags as tag>
+                    <input type="radio" name="tagId" value="${tag.id}" id="tag_${tag.id}" <#if tag.id == adminUser.tagId>checked</#if>>&nbsp;
+                    <label for="tag_${tag.id}">${tag.name!}</label>
                   </#list>
                 </p>
               </div>
@@ -50,12 +59,12 @@
   $(function() {
     $("#form").submit(function() {
       var username = $("#username").val();
-      var oldPassword = $("#oldPassword").val();
+      //var oldPassword = $("#oldPassword").val();
       var password = $("#password").val();
       var roleId = $("input[name='roleId']:checked").val();
+        var tagId = $("input[name='tagId']:checked").val();
       if(!username) {
         toast('用户名不能为空');
-        return false;
       }
       $.ajax({
         url: '/admin/admin_user/edit',
@@ -67,20 +76,9 @@
           id: '${adminUser.id}',
           username: username,
           password: password,
-          roleId: roleId
-        },
-        success: function(data) {
-          if(data.code === 200) {
-            toast('修改成功');
-            setTimeout(function() {
-              window.location.href = '/admin/admin_user/list';
-            }, 1000);
-          } else {
-            toast(data.description);
-          }
+          roleId: roleId,
+            tagId:tagId
         }
-      })
-      return false;
     })
   })
 </script>

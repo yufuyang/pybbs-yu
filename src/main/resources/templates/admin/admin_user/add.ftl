@@ -38,6 +38,15 @@
                   </#list>
                 </p>
               </div>
+              <div class="form-group">
+                <label>模块</label>
+                <p>
+                  <#list tags as tag>
+                    <input type="radio" name="tagId" value="${tag.id}" id="tag_${tag.id}">&nbsp;
+                    <label for="tag_${tag.id}">${tag.name!}</label>
+                  </#list>
+                </p>
+              </div>
               <button type="submit" class="btn btn-xs btn-primary">保存</button>
             </form>
           </div>
@@ -51,6 +60,7 @@
       var username = $("#username").val();
       var password = $("#password").val();
       var roleId = $("input[name='roleId']:checked").val();
+        var tagId = $("input[name='tagId']:checked").val();
       if(!username) {
         toast('用户名不能为空');
         return false;
@@ -68,20 +78,11 @@
         data: {
           username: username,
           password: password,
-          roleId: roleId
-        },
-        success: function(data) {
-          if(data.code === 200) {
-            toast('添加成功');
-            setTimeout(function() {
-              window.location.href = '/admin/admin_user/list';
-            }, 1000);
-          } else {
-            toast(data.description);
-          }
+          roleId: roleId,
+            tagId: tagId
         }
+
       })
-      return false;
     })
   })
 </script>

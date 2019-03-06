@@ -38,7 +38,7 @@ public class TagAdminController extends BaseAdminController {
     if (StringUtils.isEmpty(name)) name = null;
     Integer usrid=getAdminUser().getId();
     Integer roleId=getAdminUser().getRoleId();
-    IPage<Tag> page = tagService.selectAll(pageNo, null, name,usrid,roleId);
+    IPage<Tag> page = tagService.selectAll(pageNo, null, name);
     model.addAttribute("roleId",roleId);
     model.addAttribute("page", page);
     model.addAttribute("name", name);

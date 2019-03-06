@@ -102,7 +102,7 @@ public class IndexApiController extends BaseApiController {
   @GetMapping("/tags")
   public Result tags(@RequestParam(defaultValue = "1") Integer pageNo) {
 
-    return success(tagService.selectAll(pageNo, null, null,null,1));
+    return success(tagService.selectAll(pageNo, null, null));
   }
 
   // 上传图片

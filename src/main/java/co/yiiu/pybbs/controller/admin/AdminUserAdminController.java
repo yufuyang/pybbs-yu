@@ -3,6 +3,7 @@ package co.yiiu.pybbs.controller.admin;
 import co.yiiu.pybbs.model.AdminUser;
 import co.yiiu.pybbs.service.AdminUserService;
 import co.yiiu.pybbs.service.RoleService;
+import co.yiiu.pybbs.service.TagService;
 import co.yiiu.pybbs.util.bcrypt.BCryptPasswordEncoder;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 
@@ -28,6 +30,8 @@ public class AdminUserAdminController extends BaseAdminController {
   private AdminUserService adminUserService;
   @Autowired
   private RoleService roleService;
+  @Autowired
+  private TagService tagService;
 
   @RequiresPermissions("admin_user:list")
   @GetMapping("/list")
@@ -41,6 +45,9 @@ public class AdminUserAdminController extends BaseAdminController {
   public String add(Model model) {
     // 查询所有的角色
     model.addAttribute("roles", roleService.selectAll());
+    //查询所有的模块
+
+    model.addAttribute("tags",tagService.selectall());
     return "admin/admin_user/add";
   }
 
@@ -60,6 +67,7 @@ public class AdminUserAdminController extends BaseAdminController {
 //    Assert.isTrue(adminUser.getId().equals(id), "谁给你的权限让你修改别人的帐号的？");
     // 查询所有的角色
     model.addAttribute("roles", roleService.selectAll());
+    model.addAttribute("tags",tagService.selectall());
     model.addAttribute("adminUser", adminUserService.selectById(id));
     return "admin/admin_user/edit";
   }

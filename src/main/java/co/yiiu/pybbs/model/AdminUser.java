@@ -20,6 +20,17 @@ public class AdminUser implements Serializable {
   private String password;
   private Date inTime;
   private Integer roleId;
+  private Integer tagId;
+
+  public Integer getTagId()
+  {
+    return tagId;
+  }
+
+  public void setTagId(Integer tagId)
+  {
+    this.tagId = tagId;
+  }
 
   public Integer getId() {
     return id;
