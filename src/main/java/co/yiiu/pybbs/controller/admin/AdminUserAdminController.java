@@ -46,7 +46,6 @@ public class AdminUserAdminController extends BaseAdminController {
     // 查询所有的角色
     model.addAttribute("roles", roleService.selectAll());
     //查询所有的模块
-
     model.addAttribute("tags",tagService.selectall());
     return "admin/admin_user/add";
   }

@@ -23,17 +23,6 @@
             <label>名称</label>
             <input type="text" name="name" value="" class="form-control">
           </div>
-          <#--<div class="form-group">-->
-            <#--<label>话题数</label>-->
-            <#--<input type="number" pattern="\d" name="topicCount" value="${tag.topicCount!}" class="form-control">-->
-          <#--</div>-->
-          <#--<div class="form-group">-->
-            <#--<label>Icon</label>-->
-            <#--<input type="file" name="file" class="form-control"><br>-->
-            <#--<#if tag.icon??>-->
-              <#--<img src="${tag.icon!}" width="50" alt="">-->
-            <#--</#if>-->
-          <#--</div>-->
           <div class="form-group">
             <label for="">描述</label>
             <textarea name="description" rows="7" class="form-control"></textarea>

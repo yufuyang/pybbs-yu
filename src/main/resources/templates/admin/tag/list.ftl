@@ -1,8 +1,7 @@
 <#include "../layout/layout.ftl">
 <@html page_title="板块列表" page_tab="tag">
   <section class="content-header">
-    <h1>
-      板块
+    <h1>板块
       <small>列表</small>
     </h1>
     <ol class="breadcrumb">
@@ -19,7 +18,7 @@
           <button type="button" onclick="asyncTopicCount()" class="btn btn-xs btn-danger pull-right">同步话题数</button>
           <script>
             function asyncTopicCount() {
-              if(confirm('如果标签数比较多，这个操作会很耗费时间，确定继续吗？')) {
+              if(confirm('如果板块数比较多，这个操作会很耗费时间，确定继续吗？')) {
                 $.get("/admin/tag/async", function (data) {
                   if (data.code === 200) {
                     toast("成功", "success");

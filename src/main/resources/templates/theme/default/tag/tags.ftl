@@ -7,16 +7,18 @@
         <@tag_tags pageNo=pageNo pageSize=40>
           <div class="row" style="overflow: hidden;">
             <#list page.records as tag>
-              <div class="col-md-3 tag-item">
-                <#if tag.icon??>
-                  <img src="${tag.icon}" width="24" class="sponsor-tag-img" alt="${tag.name}">
-                </#if>
-                <a href="/topic/tag/${tag.name}">
-                  <span class="label label-info">${tag.name}</span>
-                </a>
-                <span class="text-muted">x ${tag.topicCount}</span>
-                <small class="excerpt text-muted" style="">${tag.description!}</small>
-              </div>
+                <div class="col-md-6" style="height: 7rem;overflow:hidden">
+                            <div class="col-md-1">
+                                <img src="http://bbs.jeecms.com/r/cms/www/blue/bbs_forum/img/top/tie002.gif" style="height:4rem;margin-top:.5rem" class="sponsor-tag-img" alt="pretty good">
+                            </div>
+                            <div class="col-md-10" style="margin-left:1rem">
+                                    <a href="/topic/tag/${tag.name}">
+                                        <span class="label label-info">${tag.name}</span>
+                                    </a>
+                                    <span class="text-muted" style="font-size:13px">当前话题数:${tag.topicCount}</span>
+                                    <small class="excerpt text-muted" style="font-size:11px">${tag.description!}</small>
+                            </div> 
+                        </div>
             </#list>
           </div>
           <#include "../components/paginate.ftl"/>
