@@ -22,28 +22,16 @@ public class Tag implements Serializable {
   // 当前标签下的话题个数
   private Integer topicCount;
   private Date inTime;
-  private Integer createId;
+  private  Integer adminId;
 
-  private Boolean pass;
-
-  public Boolean getPass()
+  public Integer getAdminId()
   {
-    return pass;
+    return adminId;
   }
 
-  public void setPass(Boolean pass)
+  public void setAdminId(Integer adminId)
   {
-    this.pass = pass;
-  }
-
-  public Integer getCreateId()
-  {
-    return createId;
-  }
-
-  public void setCreateId(Integer createId)
-  {
-    this.createId = createId;
+    this.adminId = adminId;
   }
 
   public Date getInTime() {

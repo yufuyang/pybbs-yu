@@ -90,10 +90,8 @@ public class TagService {
     if(tag!=null){
       tag.setName(tag.getName());
       tag.setDescription(tag.getDescription());
-      tag.setCreateId(tag.getCreateId());
       tag.setInTime(new Date());
       tag.setTopicCount(0);
-      tag.setPass(false);
       tagMapper.insert(tag);
     }else
       return;

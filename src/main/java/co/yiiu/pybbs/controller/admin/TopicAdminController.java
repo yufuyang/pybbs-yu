@@ -60,7 +60,7 @@ public class TopicAdminController extends BaseAdminController {
   @GetMapping("/edit")
   public String edit(Integer id, Model model) {
     Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
-    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    if (tag.getAdminId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
     {
       model.addAttribute("topic", topicService.selectById(id));
       model.addAttribute("tags", tag.getName());
@@ -84,7 +84,7 @@ public class TopicAdminController extends BaseAdminController {
   public String check(Integer id,Model model) {
     Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
 
-    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    if (tag.getAdminId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
     {
       Topic topic = topicService.selectById(id);
       model.addAttribute("topic",topic);
@@ -96,7 +96,7 @@ public class TopicAdminController extends BaseAdminController {
   @PostMapping("/check")
   @ResponseBody
   public Result isPass(Integer id, String title, String content, Tag tag,Boolean pass) {
-    System.out.println("进来了吗");
+
     Topic topic = topicService.selectById(id);
     topic.setPass(pass);
     topicService.updateTopic(topic, title, content, tag);
@@ -109,7 +109,7 @@ public class TopicAdminController extends BaseAdminController {
   public Result good(Integer id) {
     Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
 
-    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    if (tag.getAdminId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
     {
       Topic topic = topicService.selectById(id);
       topic.setGood(!topic.getGood());
@@ -123,7 +123,7 @@ public class TopicAdminController extends BaseAdminController {
   @ResponseBody
   public Result top(Integer id) {
     Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
-    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    if (tag.getAdminId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
     {
       Topic topic = topicService.selectById(id);
       topic.setTop(!topic.getTop());
@@ -137,7 +137,7 @@ public class TopicAdminController extends BaseAdminController {
   @ResponseBody
   public Result delete(Integer id) {
     Tag tag=tagService.selectById(topicService.selectById(id).getTagId());
-    if (tag.getCreateId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
+    if (tag.getAdminId()==getAdminUser().getId()||getAdminUser().getRoleId()==1)
     {
       Topic topic = topicService.selectById(id);
       topicService.delete(topic, null);

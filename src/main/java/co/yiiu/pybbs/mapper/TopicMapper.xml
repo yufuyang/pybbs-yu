@@ -27,7 +27,7 @@
         date(t.in_time) &lt;= date_add(curdate(), interval 1 day)
         and date(t.in_time) &gt;= date_sub(curdate(), interval 7 day)
       </if>
-      and t.pass=true and tag.pass=true
+      and t.pass=true
     </where>
     <if test="tab == 'all' or tab == 'newest' or tab == 'noanswer' or tab == 'good'">
       order by t.top desc, t.in_time desc
@@ -79,7 +79,7 @@
 
   <select id="countTodayByadminId" resultType="integer">
      select count(1) from topic t
-     left join tag on t.tag_id=tag.id left join admin_user on tag.create_id=admin_user.id
+     left join tag on t.tag_id=tag.id left join admin_user on tag.admin_id=admin_user.id
      <where>
      admin_user.id = #{adminId}
      and
@@ -90,7 +90,7 @@
   <select id="selectTopicByAdminId" resultType="map">
     select t.*, u.username, u.avatar
      from topic t
-         left join user u on t.user_id = u.id  left join tag on t.tag_id=tag.id left join admin_user on tag.create_id=admin_user.id
+         left join user u on t.user_id = u.id  left join tag on t.tag_id=tag.id left join admin_user on tag.admin_id=admin_user.id
      where admin_user.id = #{adminId}
      order by t.in_time desc
   </select>

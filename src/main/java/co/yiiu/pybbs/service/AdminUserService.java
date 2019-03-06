@@ -1,7 +1,9 @@
 package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.mapper.AdminUserMapper;
+import co.yiiu.pybbs.mapper.TagMapper;
 import co.yiiu.pybbs.model.AdminUser;
+import co.yiiu.pybbs.model.Tag;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ public class AdminUserService {
 
   @Autowired
   private AdminUserMapper adminUserMapper;
+  @Autowired
+  private TagMapper tagMapper;
 
   // 根据用户名查询用户
   public AdminUser selectByUsername(String username) {
@@ -40,7 +44,9 @@ public class AdminUserService {
   }
 
   public void insert(AdminUser adminUser) {
+
     adminUserMapper.insert(adminUser);
+    adminUserMapper.updateTag(adminUser.getTagId());
   }
 
   public void delete(Integer id) {

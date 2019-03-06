@@ -52,7 +52,7 @@
     select count(1) from comment c
         left join topic t on c.topic_id = t.id
         left join tag on t.tag_id=tag.id
-        left join admin_user on tag.create_id=admin_user.id
+        left join admin_user on tag.admin_id=admin_user.id
     where
         admin_user.id = #{adminId}
         and
@@ -65,7 +65,7 @@
     left join user u on u.id = c.user_id
     left join topic t on c.topic_id = t.id
     left join tag on t.tag_id=tag.id
-    left join admin_user on tag.create_id=admin_user.id
+    left join admin_user on tag.admin_id=admin_user.id
     where admin_user.id = #{adminId}
     order by c.in_time desc
   </select>

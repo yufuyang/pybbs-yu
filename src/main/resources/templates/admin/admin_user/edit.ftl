@@ -28,7 +28,7 @@
               </div>
               <div class="form-group">
                 <label>密码</label>
-                <input type="password" id="password" name="password" class="form-control" value="${adminUser.password!}" placeholder="密码">
+                <input type="password" id="password" name="password" class="form-control"  placeholder="密码">
               </div>
               <div class="form-group">
                 <label>角色</label>

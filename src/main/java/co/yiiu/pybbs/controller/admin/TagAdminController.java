@@ -36,10 +36,7 @@ public class TagAdminController extends BaseAdminController {
   @GetMapping("/list")
   public String list(@RequestParam(defaultValue = "1") Integer pageNo, String name, Model model) {
     if (StringUtils.isEmpty(name)) name = null;
-    Integer usrid=getAdminUser().getId();
-    Integer roleId=getAdminUser().getRoleId();
     IPage<Tag> page = tagService.selectAll(pageNo, null, name);
-    model.addAttribute("roleId",roleId);
     model.addAttribute("page", page);
     model.addAttribute("name", name);
     return "admin/tag/list";
@@ -60,7 +57,7 @@ public class TagAdminController extends BaseAdminController {
     tag.setName(name);
     tag.setDescription(description);
     //tag.setTopicCount(topicCount);
-    tag.setCreateId(getAdminUser().getId());
+    tag.setAdminId(null);
     tagService.insertTag(tag);
     return redirect("/admin/tag/list");
   }
@@ -71,17 +68,7 @@ public class TagAdminController extends BaseAdminController {
     model.addAttribute("tag", tagService.selectById(id));
     return "admin/tag/edit";
   }
-  //审核标签
-
-  @RequiresPermissions("tag:check")
-  @GetMapping ("/check")
-  @ResponseBody
-  public Result check(Integer id) {
-      Tag tag=tagService.selectById(id);
-      tag.setPass(!tag.getPass());
-      tagService.update(tag);
-      return success();
-  }
+  //审核标
 
 
   //编辑标签

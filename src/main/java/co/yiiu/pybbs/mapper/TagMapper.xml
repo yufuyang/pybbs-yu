@@ -15,7 +15,7 @@
     select t.*, u.username, u.avatar
     from topic t
     left join user u on t.user_id = u.id
-    where t.tag_id = #{tagId} and t.pass=true
+    where t.tag_id = #{tagId}
     order by t.in_time desc
   </select>
   <select id="selectAllTopicByTagId" resultType="co.yiiu.pybbs.model.Topic">
@@ -31,12 +31,12 @@
   <select id="countTodayByadminId" resultType="integer">
     select count(1) from tag
     where
-      tag.create_id=#{adminId}
+      tag.admin_id=#{adminId}
       and
       to_days(in_time) = to_days(now())
   </select>
   <select id="getAllTag" resultType="string">
-    select name from tag where pass=true
+    select name from tag
   </select>
 
 </mapper>

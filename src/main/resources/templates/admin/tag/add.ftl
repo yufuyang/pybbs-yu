@@ -1,19 +1,19 @@
 <#include "../layout/layout.ftl">
-<@html page_title="标签添加" page_tab="tag">
+<@html page_title="板块添加" page_tab="tag">
   <section class="content-header">
     <h1>
       <small>列表</small>
     </h1>
     <ol class="breadcrumb">
       <li><a href="/admin/index"><i class="fa fa-dashboard"></i> 首页</a></li>
-      <li><a href="/admin/tag/list">标签</a></li>
+      <li><a href="/admin/tag/list">板块</a></li>
       <li class="active">添加</li>
     </ol>
   </section>
   <section class="content">
     <div class="box box-info">
       <div class="box-header with-border">
-        <h3 class="box-title">标签添加</h3>
+        <h3 class="box-title">板块添加</h3>
       </div>
       <!-- /.box-header -->
       <div class="box-body">
