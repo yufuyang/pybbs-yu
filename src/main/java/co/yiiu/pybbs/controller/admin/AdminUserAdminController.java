@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.AdminUser;
+import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.service.AdminUserService;
 import co.yiiu.pybbs.service.RoleService;
 import co.yiiu.pybbs.service.TagService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -46,8 +48,9 @@ public class AdminUserAdminController extends BaseAdminController {
     // 查询所有的角色
     model.addAttribute("roles", roleService.selectAll());
     //查询所有的模块
-
-    model.addAttribute("tags",tagService.selectall());
+    List<Tag> tags=tagService.selectAllByAdminId();
+    System.out.println(tags.toString());
+    model.addAttribute("tags",tags);
     return "admin/admin_user/add";
   }
 

@@ -34,7 +34,8 @@
                 <label>角色</label>
                 <p>
                   <#list roles as role>
-                    <input type="radio" name="roleId" value="${role.id}" id="role_${role.id}" <#if role.id == adminUser.roleId>checked</#if>>&nbsp;
+                    <input type="radio" name="roleId" value="${role.id}" id="role_${role.id}"
+                           <#--<#if role.id == adminUser.roleId>checked</#if>>&nbsp;-->
                     <label for="role_${role.id}">${role.name!}</label>
                   </#list>
                 </p>
@@ -42,10 +43,11 @@
               <div class="form-group">
                 <label>模块</label>
                 <p>
-                  <#list tags as tag>
-                    <input type="radio" name="tagId" value="${tag.id}" id="tag_${tag.id}" <#if tag.id == adminUser.tagId>checked</#if>>&nbsp;
-                    <label for="tag_${tag.id}">${tag.name!}</label>
-                  </#list>
+                    <#list tags as tag>
+                        <input type="radio" name="tagId" value="${tag.id}" id="tag_${tag.id}"
+                    <#--<#if tag.id == adminUser.tagId>checked</#if>>&nbsp;-->
+                        <label for="tag_${tag.id}">${tag.name!}</label>
+                    </#list>
                 </p>
               </div>
               <button type="submit" class="btn btn-xs btn-primary">保存</button>

@@ -128,6 +128,14 @@ public class TagService {
     return tagMapper.selectList(null);
   }
 
+  public List<Tag> selectAllByAdminId(){
+    List<Tag> tagList=new ArrayList<Tag>();
+    tagList=tagMapper.getAllTagByAdminId();
+    return tagList;
+  }
+
+
+
   public void update(Tag tag) {
     tagMapper.updateById(tag);
   }

@@ -35,8 +35,12 @@
       and
       to_days(in_time) = to_days(now())
   </select>
+
   <select id="getAllTag" resultType="string">
     select name from tag
   </select>
 
+  <select id="getAllTagByAdminId" resultType="co.yiiu.pybbs.model.Tag">
+    select id,name from tag where admin_id = 0
+  </select>
 </mapper>

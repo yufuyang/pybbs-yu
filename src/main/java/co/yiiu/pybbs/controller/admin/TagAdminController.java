@@ -57,7 +57,7 @@ public class TagAdminController extends BaseAdminController {
     tag.setName(name);
     tag.setDescription(description);
     //tag.setTopicCount(topicCount);
-    tag.setAdminId(null);
+    tag.setAdminId(0);
     tagService.insertTag(tag);
     return redirect("/admin/tag/list");
   }

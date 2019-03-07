@@ -17,14 +17,24 @@
                         placeholder="内容，支持Markdown语法"></textarea>
             </div>
             <div class="form-group">
-              <label>标签</label>
+              <label>板块</label>
               <select id="tags">
                 <#list list as list>
                   <option>${list}</option>
                 </#list>
               </select>
-              <#--<input type="text" name="tags" id="tags" value="${tag!}" class="form-control"-->
-              <#--placeholder="标签, 多个标签以 英文逗号 隔开"/>-->
+                <script>
+                    const dom = document.getElementById('tags')
+                    const opts = Array.prototype.slice.call(dom.getElementsByTagName('option'))
+                    const Herf = window.location.href
+                    let arr = Herf.split('=')
+                    const selectOpt = opts.filter(function(value) {
+                        return value.innerHTML === decodeURI(arr[1])
+                    })
+                    if (selectOpt[0]) {
+                        selectOpt[0].setAttribute('selected', true)
+                    }
+                </script>
             </div>
             <div class="form-group">
               <button type="button" id="btn" class="btn btn-info">发布话题</button>

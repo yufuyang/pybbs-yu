@@ -21,5 +21,8 @@ public interface TagMapper extends BaseMapper<Tag> {
   Integer countTodayByadminId(@Param("adminId") Integer adminId);
 
   List getAllTag();
+
   List selectAllTopicByTagId(@Param("tagId") Integer tagId);
+
+  List<Tag> getAllTagByAdminId();
 }

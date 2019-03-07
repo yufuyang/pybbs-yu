@@ -41,6 +41,7 @@ public class AdminUserService {
 
   public void update(AdminUser adminUser) {
     adminUserMapper.updateById(adminUser);
+    adminUserMapper.updateTag(adminUser.getTagId());
   }
 
   public void insert(AdminUser adminUser) {
