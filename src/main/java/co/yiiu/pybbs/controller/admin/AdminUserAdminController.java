@@ -49,7 +49,6 @@ public class AdminUserAdminController extends BaseAdminController {
     model.addAttribute("roles", roleService.selectAll());
     //查询所有的模块
     List<Tag> tags=tagService.selectAllByAdminId();
-    System.out.println(tags.toString());
     model.addAttribute("tags",tags);
     return "admin/admin_user/add";
   }
