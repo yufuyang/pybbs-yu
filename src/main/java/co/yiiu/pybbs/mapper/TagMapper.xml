@@ -39,4 +39,9 @@
     select name from tag
   </select>
 
+  <select id="getAllNullTag" resultType="string">
+    select name from tag where admin_id is null
+  </select>
+
+
 </mapper>

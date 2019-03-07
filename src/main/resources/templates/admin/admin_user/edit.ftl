@@ -27,14 +27,27 @@
                 <input type="text" id="username" name="username" value="${adminUser.username!}" class="form-control" placeholder="用户名">
               </div>
               <div class="form-group">
-                <label>密码</label>
+                <label>新密码（若需要更改密码，直接输入即可，否则不需要填写）</label>
                 <input type="password" id="password" name="password" class="form-control"  placeholder="密码">
+              </div>
+              <div class="form-group">
+                <label>部门</label>
+                <input type="text" id="department" name="department" value="${adminUser.department!}" class="form-control" placeholder="部门">
+              </div>
+              <div class="form-group">
+                <label>邮箱</label>
+                <input type="email" id="email" name="email" value="${adminUser.email!}" class="form-control" placeholder="邮箱">
+              </div>
+              <div class="form-group">
+                <label>电话</label>
+                <input type="number" id="phone" name="phone" value="${adminUser.phone!}" class="form-control" placeholder="电话">
               </div>
               <div class="form-group">
                 <label>角色</label>
                 <p>
                   <#list roles as role>
-                    <input type="radio" name="roleId" value="${role.id}" id="role_${role.id}" <#if role.id == adminUser.roleId>checked</#if>>&nbsp;
+                    <input type="radio" name="roleId" value="${role.id}" id="role_${role.id}"
+                           <#if role.id == adminUser.roleId>checked</#if>>&nbsp;
                     <label for="role_${role.id}">${role.name!}</label>
                   </#list>
                 </p>
@@ -43,7 +56,10 @@
                 <label>模块</label>
                 <p>
                   <#list tags as tag>
-                    <input type="radio" name="tagId" value="${tag.id}" id="tag_${tag.id}" <#if tag.id == adminUser.tagId>checked</#if>>&nbsp;
+                    <input type="radio" name="tagId" value="${tag.id}" id="tag_${tag.id}"
+                    <#if adminUser.tagId??>
+                           <#if tag.id == adminUser.tagId>checked</#if>>&nbsp;
+                    </#if>
                     <label for="tag_${tag.id}">${tag.name!}</label>
                   </#list>
                 </p>
@@ -61,6 +77,9 @@
       var username = $("#username").val();
        //var oldPassword = $("#oldPassword").val();
       var password = $("#password").val();
+        var department = $("#department").val();
+        var email = $("#email").val();
+        var phone = $("#phone").val();
       var roleId = $("input[name='roleId']:checked").val();
         var tagId = $("input[name='tagId']:checked").val();
       if(!username) {
@@ -76,6 +95,9 @@
           id: '${adminUser.id}',
           username: username,
           password: password,
+            department:department,
+            email:email,
+            phone:phone,
           roleId: roleId,
             tagId:tagId
         }

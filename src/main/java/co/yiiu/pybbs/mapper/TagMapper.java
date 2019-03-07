@@ -22,4 +22,6 @@ public interface TagMapper extends BaseMapper<Tag> {
 
   List getAllTag();
   List selectAllTopicByTagId(@Param("tagId") Integer tagId);
+  //获取没有管理的板块
+  List getAllNullTag();
 }
