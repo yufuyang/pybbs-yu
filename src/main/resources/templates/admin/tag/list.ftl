@@ -65,7 +65,11 @@
               <td><a href="/topic/tag/${tag.name!}" target="_blank">${tag.name!}</a></td>
               <td>${tag.topicCount!0}</td>
               <td>
-               <a href="/admin/admin_user/detail/${tag.adminName}" target="_blank">${tag.adminName}</a>
+              <#if tag.adminName??>
+                  <a href="/admin/admin_user/detail/${tag.adminName}" target="_blank">${tag.adminName!}</a>
+              <#else>
+                  <p>暂无</p>
+              </#if>
               </td>
               <td>
                 <#if sec.hasPermission('tag:edit')>

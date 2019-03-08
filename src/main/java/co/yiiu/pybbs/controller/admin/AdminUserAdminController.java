@@ -1,5 +1,6 @@
 package co.yiiu.pybbs.controller.admin;
 
+import co.yiiu.pybbs.mapper.AdminUserMapper;
 import co.yiiu.pybbs.model.AdminUser;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.service.AdminUserService;
@@ -31,7 +32,8 @@ public class AdminUserAdminController extends BaseAdminController {
   private RoleService roleService;
   @Autowired
   private TagService tagService;
-
+  @Autowired
+  private AdminUserMapper adminUserMapper;
   @RequiresPermissions("admin_user:list")
   @GetMapping("/list")
   public String list(Model model) {
@@ -67,12 +69,9 @@ public class AdminUserAdminController extends BaseAdminController {
     // 查询所有的角色
     model.addAttribute("roles", roleService.selectAll());
     List<Tag> tags = tagService.selectall();
-    if (adminUserService.selectById(id).getTagId()!=null)
-    {
-      tags.add(tagService.selectById(adminUserService.selectById(id).getTagId()));
-    }
-    model.addAttribute("tags",tags);
-    model.addAttribute("adminUser", adminUserService.selectById(id));
+    tags.add(tagService.selectById(adminUserService.selectById(id).getTagId()));
+      model.addAttribute("tags",tags);
+      model.addAttribute("adminUser", adminUserService.selectById(id));
     return "admin/admin_user/edit";
   }
 
@@ -86,6 +85,7 @@ public class AdminUserAdminController extends BaseAdminController {
     } else {
       adminUser.setPassword(new BCryptPasswordEncoder().encode(adminUser.getPassword()));
     }
+    System.out.println(adminUserMapper.text(1).getTagId());
     adminUserService.update(adminUser);
     return redirect("/admin/admin_user/list");
   }

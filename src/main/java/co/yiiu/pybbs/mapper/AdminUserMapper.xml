@@ -23,4 +23,8 @@
 
   </update>
 
+  <select id="text" resultType="co.yiiu.pybbs.model.AdminUser">
+    SELECT * FROM admin_user where id=#{id}
+  </select>
+
 </mapper>
