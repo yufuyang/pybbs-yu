@@ -47,7 +47,7 @@ public class AdminUserService {
     if (oldTag.getId()!=adminUser.getTagId())
     {
         oldTag.setAdminId(0);
-        oldTag.setAdminName(null);
+        oldTag.setAdminName("");
       Tag tag = tagMapper.selectById(adminUser.getTagId());
       tag.setAdminId(adminUser.getId());
       tag.setAdminName(adminUser.getUsername());

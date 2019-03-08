@@ -57,10 +57,10 @@
                 <p>
                   <#list tags as tag>
                     <input type="radio" name="tagId" value="${tag.id}" id="tag_${tag.id}"
-                         <#if adminUser.tagId??>
+                         <#if adminUser.tagId !=0>
                            <#if tag.id == adminUser.tagId>checked</#if>>&nbsp;
                          </#if>
-                    <label for="tag_${tag.id}">${tag.name!}</label>
+                    <label for="tag_${tag.id}">${tag.name!"还没添加板块"}</label>
                   </#list>
                 </p>
               </div>

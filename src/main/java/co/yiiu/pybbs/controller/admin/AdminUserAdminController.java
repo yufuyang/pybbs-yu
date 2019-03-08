@@ -85,7 +85,7 @@ public class AdminUserAdminController extends BaseAdminController {
     } else {
       adminUser.setPassword(new BCryptPasswordEncoder().encode(adminUser.getPassword()));
     }
-    System.out.println(adminUserMapper.text(1).getTagId());
+
     adminUserService.update(adminUser);
     return redirect("/admin/admin_user/list");
   }
