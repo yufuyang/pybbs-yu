@@ -125,7 +125,9 @@ public class TagService {
   }
 
   public List<Tag> selectall(){
-    return tagMapper.selectList(null);
+    QueryWrapper<Tag> wrapper = new QueryWrapper<>();
+    wrapper.eq("admin_id", 0);
+    return tagMapper.selectList(wrapper);
   }
 
   public List<Tag> selectAllByAdminId(){

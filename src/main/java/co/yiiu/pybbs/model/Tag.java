@@ -23,6 +23,17 @@ public class Tag implements Serializable {
   private Integer topicCount;
   private Date inTime;
   private  Integer adminId;
+  private String adminName;
+
+  public String getAdminName()
+  {
+    return adminName;
+  }
+
+  public void setAdminName(String adminName)
+  {
+    this.adminName = adminName;
+  }
 
   public Integer getAdminId()
   {

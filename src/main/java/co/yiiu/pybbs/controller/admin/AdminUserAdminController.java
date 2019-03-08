@@ -1,5 +1,6 @@
 package co.yiiu.pybbs.controller.admin;
 
+import co.yiiu.pybbs.mapper.AdminUserMapper;
 import co.yiiu.pybbs.model.AdminUser;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.service.AdminUserService;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -34,7 +32,8 @@ public class AdminUserAdminController extends BaseAdminController {
   private RoleService roleService;
   @Autowired
   private TagService tagService;
-
+  @Autowired
+  private AdminUserMapper adminUserMapper;
   @RequiresPermissions("admin_user:list")
   @GetMapping("/list")
   public String list(Model model) {
@@ -69,8 +68,10 @@ public class AdminUserAdminController extends BaseAdminController {
 //    Assert.isTrue(adminUser.getId().equals(id), "谁给你的权限让你修改别人的帐号的？");
     // 查询所有的角色
     model.addAttribute("roles", roleService.selectAll());
-    model.addAttribute("tags",tagService.selectall());
-    model.addAttribute("adminUser", adminUserService.selectById(id));
+    List<Tag> tags = tagService.selectall();
+    tags.add(tagService.selectById(adminUserService.selectById(id).getTagId()));
+      model.addAttribute("tags",tags);
+      model.addAttribute("adminUser", adminUserService.selectById(id));
     return "admin/admin_user/edit";
   }
 
@@ -84,6 +85,7 @@ public class AdminUserAdminController extends BaseAdminController {
     } else {
       adminUser.setPassword(new BCryptPasswordEncoder().encode(adminUser.getPassword()));
     }
+
     adminUserService.update(adminUser);
     return redirect("/admin/admin_user/list");
   }
@@ -93,5 +95,11 @@ public class AdminUserAdminController extends BaseAdminController {
   public String delete(Integer id) {
     adminUserService.delete(id);
     return redirect("/admin/admin_user/list");
+  }
+
+  @GetMapping("/detail/{name}")
+  public String detail(@PathVariable String name, Model model) {
+    model.addAttribute("adminUser", adminUserService.selectByUsername(name));
+    return "admin/admin_user/detail";
   }
 }

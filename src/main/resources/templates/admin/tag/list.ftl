@@ -54,6 +54,7 @@
                <th>#</th>
               <th>名称</th>
               <th>话题数</th>
+              <th>管理员</th>
               <th>操作</th>
           </tr>
           </thead>
@@ -63,7 +64,13 @@
               <td>${tag.id}</td>
               <td><a href="/topic/tag/${tag.name!}" target="_blank">${tag.name!}</a></td>
               <td>${tag.topicCount!0}</td>
-
+              <td>
+              <#if tag.adminName??>
+                  <a href="/admin/admin_user/detail/${tag.adminName}" target="_blank">${tag.adminName!}</a>
+              <#else>
+                  <p>暂无</p>
+              </#if>
+              </td>
               <td>
                 <#if sec.hasPermission('tag:edit')>
                   <a href="/admin/tag/edit?id=${tag.id}" class="btn btn-xs btn-warning">编辑</a>
@@ -71,8 +78,6 @@
                 <#if sec.hasPermission('tag:delete')>
                   <button onclick="actionBtn('${tag.id}','delete', this)" class="btn btn-xs btn-danger">删除</button>
                 </#if>
-
-
               </td>
             </tr>
             <#if tag.intro??>
