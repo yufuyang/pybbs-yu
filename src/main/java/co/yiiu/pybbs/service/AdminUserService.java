@@ -46,7 +46,15 @@ public class AdminUserService {
   public void insert(AdminUser adminUser) {
 
     adminUserMapper.insert(adminUser);
-    adminUserMapper.updateTag(adminUser.getTagId());
+    if (adminUser.getTagId()==null)
+    {
+      adminUser.setTagId(null);
+    }else
+    {
+      adminUserMapper.updateTag(adminUser.getTagId());
+      adminUserMapper.updateAdminName(adminUser.getTagId());
+    }
+
   }
 
   public void delete(Integer id) {

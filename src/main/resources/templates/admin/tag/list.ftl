@@ -2,7 +2,7 @@
 <@html page_title="板块列表" page_tab="tag">
   <section class="content-header">
     <h1>
-        板块
+      板块
       <small>列表</small>
     </h1>
     <ol class="breadcrumb">
@@ -19,7 +19,7 @@
           <button type="button" onclick="asyncTopicCount()" class="btn btn-xs btn-danger pull-right">同步话题数</button>
           <script>
             function asyncTopicCount() {
-              if(confirm('如果板块数比较多，这个操作会很耗费时间，确定继续吗？')) {
+              if(confirm('如果标签数比较多，这个操作会很耗费时间，确定继续吗？')) {
                 $.get("/admin/tag/async", function (data) {
                   if (data.code === 200) {
                     toast("成功", "success");
@@ -54,7 +54,7 @@
                <th>#</th>
               <th>名称</th>
               <th>话题数</th>
-              <th>状态</th>
+              <th>管理员</th>
               <th>操作</th>
           </tr>
           </thead>
@@ -65,11 +65,7 @@
               <td><a href="/topic/tag/${tag.name!}" target="_blank">${tag.name!}</a></td>
               <td>${tag.topicCount!0}</td>
               <td>
-              <#if tag.pass>
-                  已审核
-              <#else>
-                  未审核
-              </#if>
+               <a href="/admin/admin_user/detail/${tag.adminName}" target="_blank">${tag.adminName}</a>
               </td>
               <td>
                 <#if sec.hasPermission('tag:edit')>
@@ -78,15 +74,6 @@
                 <#if sec.hasPermission('tag:delete')>
                   <button onclick="actionBtn('${tag.id}','delete', this)" class="btn btn-xs btn-danger">删除</button>
                 </#if>
-                <#if sec.hasPermission('tag:check')>
-                   <button onclick="actionBtn('${tag.id}', 'check', this)" class="btn btn-xs btn-warning">
-                </#if>
-                <#if tag.pass>
-                    已审核
-                <#else>
-                    未审核
-                </#if>
-
               </td>
             </tr>
             <#if tag.intro??>
@@ -101,16 +88,13 @@
     <@paginate currentPage=page.current totalPage=page.pages actionUrl="/admin/tag/list" urlParas="&name=${name!}"/>
   </section>
 <script>
-    <#if sec.hasPermissionOr("tag:delete","tag:check")>
+    <#if sec.hasPermissionOr("tag:delete")>
     function actionBtn(id, action, self) {
         var msg, url;
         var tip = $(self).text().replace(/[\r\n]/g, '').trim();
          if(action === 'delete') {
             url = '/admin/tag/delete?id=' + id;
-            msg = '确定要删除这条评论吗？';
-        }else if(action === 'check') {
-            url = '/admin/tag/check?id=' + id;
-            msg = '确定'+tip+'这条话题吗？';
+            msg = '确定要删除这个板块吗？';
         }
 
         if (confirm(msg)) {

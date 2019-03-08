@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.AdminUser;
+import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.service.AdminUserService;
 import co.yiiu.pybbs.service.RoleService;
 import co.yiiu.pybbs.service.TagService;
@@ -10,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by tomoya.
@@ -66,7 +65,12 @@ public class AdminUserAdminController extends BaseAdminController {
 //    Assert.isTrue(adminUser.getId().equals(id), "谁给你的权限让你修改别人的帐号的？");
     // 查询所有的角色
     model.addAttribute("roles", roleService.selectAll());
-    model.addAttribute("tags",tagService.selectall());
+    List<Tag> tags = tagService.selectall();
+    if (adminUserService.selectById(id).getTagId()!=null)
+    {
+      tags.add(tagService.selectById(adminUserService.selectById(id).getTagId()));
+    }
+    model.addAttribute("tags",tags);
     model.addAttribute("adminUser", adminUserService.selectById(id));
     return "admin/admin_user/edit";
   }
@@ -90,5 +94,11 @@ public class AdminUserAdminController extends BaseAdminController {
   public String delete(Integer id) {
     adminUserService.delete(id);
     return redirect("/admin/admin_user/list");
+  }
+
+  @GetMapping("/detail/{name}")
+  public String detail(@PathVariable String name, Model model) {
+    model.addAttribute("adminUser", adminUserService.selectByUsername(name));
+    return "admin/admin_user/detail";
   }
 }
