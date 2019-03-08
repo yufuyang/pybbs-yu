@@ -2,6 +2,7 @@ package co.yiiu.pybbs.controller.admin;
 
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
+import co.yiiu.pybbs.service.NotificationService;
 import co.yiiu.pybbs.service.TagService;
 import co.yiiu.pybbs.service.TopicService;
 import co.yiiu.pybbs.util.MyPage;
@@ -30,6 +31,8 @@ public class TopicAdminController extends BaseAdminController {
   private TopicService topicService;
   @Autowired
   private TagService tagService;
+  @Autowired
+  private NotificationService notificationService;
 
 
   private Integer userid;
@@ -99,6 +102,7 @@ public class TopicAdminController extends BaseAdminController {
     System.out.println(tags);
     Topic topic = topicService.selectById(id);
     topic.setPass(pass);
+    notificationService.insert(0,topic.getUserId(),id,"check",content);
     topicService.updateTopic(topic, title, content, tags);
     return success();
   }

@@ -1,6 +1,7 @@
 package co.yiiu.pybbs.service;
 
 import co.yiiu.pybbs.mapper.TagMapper;
+import co.yiiu.pybbs.model.AdminUser;
 import co.yiiu.pybbs.model.Tag;
 import co.yiiu.pybbs.model.Topic;
 import co.yiiu.pybbs.model.TopicTag;
@@ -35,6 +36,8 @@ public class TagService {
   private SystemConfigService systemConfigService;
   @Autowired
   private TopicService topicService;
+  @Autowired
+  private AdminUserService adminUserService;
 
   public Tag selectById(Integer id) {
     return tagMapper.selectById(id);
@@ -144,11 +147,13 @@ public class TagService {
 
   // 如果 topic_tag 表里还有关联的数据，这里删除会报错
   public void delete(Integer id) {
-       tagMapper.deleteById(id);
-       List<Topic> topics=tagMapper.selectAllTopicByTagId(id);
-       for (Topic topic:topics){
-         topicService.selectById(topic.getId());
-       }
+    AdminUser adminUser=adminUserService.selectById(tagMapper.selectById(id).getAdminId());
+    adminUser.setTagId(0);
+    tagMapper.deleteById(id);
+    List<Topic> topics=tagMapper.selectAllTopicByTagId(id);
+    for (Topic topic:topics) {
+      topicService.selectById(topic.getId());
+    }
   }
 
   // ---------------------------- admin ----------------------------

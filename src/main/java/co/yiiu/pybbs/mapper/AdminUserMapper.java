@@ -16,4 +16,5 @@ public interface AdminUserMapper extends BaseMapper<AdminUser> {
 
   List<Map<String, Object>> selectAll();
   void updateTag(@Param("tagId") Integer tagId);
+  void updateAdminName(@Param("tagId") Integer tagId);
 }

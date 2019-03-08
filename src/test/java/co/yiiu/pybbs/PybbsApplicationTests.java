@@ -14,19 +14,4 @@ import java.util.Map;
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
 public class PybbsApplicationTests {
-  @Autowired
-  TopicService topicService;
-  @Autowired
-  AdminUserMapper adminUserMapper;
-  @Test
-  public void contextLoads() {
-
-  }
-
-  @Test
-  public void text(){
-    AdminUser adminUser =adminUserMapper.text(1);
-    System.out.println(adminUser);
-  }
-
 }

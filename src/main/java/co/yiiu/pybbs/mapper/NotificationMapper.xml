@@ -12,7 +12,7 @@
   </sql>-->
 
   <select id="selectByUserId" resultType="map">
-    select n.*, uu.username, uu.avatar, t.title, t.id as topicId
+    select n.*, uu.username, uu.avatar, t.title,t.pass, t.id as topicId
     from notification n
     left join user u on u.id = n.target_user_id
     left join user uu on uu.id = n.user_id
