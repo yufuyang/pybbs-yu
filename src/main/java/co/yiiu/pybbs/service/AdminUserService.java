@@ -41,20 +41,22 @@ public class AdminUserService {
 
   public void update(AdminUser adminUser) {
     AdminUser adminUser1=adminUserMapper.selectById(adminUser.getId());
-
-    Tag oldTag=tagMapper.selectById(adminUser1.getTagId());
-    System.out.println(oldTag.getName());
-    if (oldTag.getId()!=adminUser.getTagId())
-    {
+    if(adminUser1.getTagId()!=0){
+      Tag oldTag=tagMapper.selectById(adminUser1.getTagId());
+      if (oldTag.getId()!=adminUser.getTagId())
+      {
         oldTag.setAdminId(0);
         oldTag.setAdminName("");
-      Tag tag = tagMapper.selectById(adminUser.getTagId());
-      tag.setAdminId(adminUser.getId());
-      tag.setAdminName(adminUser.getUsername());
-      tagMapper.updateById(oldTag);
-      tagMapper.updateById(tag);
+        Tag tag = tagMapper.selectById(adminUser.getTagId());
+        tag.setAdminId(adminUser.getId());
+        tag.setAdminName(adminUser.getUsername());
+        tagMapper.updateById(oldTag);
+        tagMapper.updateById(tag);
+        adminUserMapper.updateById(adminUser);
+      }
+    }
+    else
       adminUserMapper.updateById(adminUser);
-    }else adminUserMapper.updateById(adminUser);
   }
 
   public void insert(AdminUser adminUser) {
